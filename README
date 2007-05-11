@@ -10,8 +10,8 @@ remote server.
 Runtime requirements:
   cygwin-1.5.24-2
   crypt-1.1-1
-  libreadline6-5.2.1-6
-  openssl-0.9.8d-1
+  libreadline6-5.2.2-7
+  openssl-0.9.8e-3
   zlib-1.2.3-2
 
 Build requirements:
@@ -38,18 +38,18 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mysql-5.0.37-X-src.tar.bz2
+  unpack mysql-5.0.41-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mysql-5.0.37-X.cygport all
+  cygport ./mysql-5.0.41-X.cygport all
 
 This will create:
-  /usr/src/mysql-5.0.37-X-src.tar.bz2
-  /usr/src/mysql-5.0.37-X.tar.bz2
-  /usr/src/mysql-devel-5.0.37-X.tar.bz2
-  /usr/src/mysql-test-5.0.37-X.tar.bz2
-  /usr/src/libmysqlclient15-5.0.37-X.tar.bz2
+  /usr/src/mysql-5.0.41-X-src.tar.bz2
+  /usr/src/mysql-5.0.41-X.tar.bz2
+  /usr/src/mysql-devel-5.0.41-X.tar.bz2
+  /usr/src/mysql-test-5.0.41-X.tar.bz2
+  /usr/src/libmysqlclient15-5.0.41-X.tar.bz2
 
 -------------------------------------------
 
@@ -102,13 +102,13 @@ Files included in the binary package:
   /usr/bin/resolve_stack_dump.exe
   /usr/bin/resolveip.exe
   /usr/sbin/mysqld.exe
-  /usr/share/doc/Cygwin/mysql-5.0.37.README
-  /usr/share/doc/mysql-5.0.37/COPYING
-  /usr/share/doc/mysql-5.0.37/ChangeLog
-  /usr/share/doc/mysql-5.0.37/EXCEPTIONS-CLIENT
-  /usr/share/doc/mysql-5.0.37/INSTALL-SOURCE
-  /usr/share/doc/mysql-5.0.37/INSTALL-WIN-SOURCE
-  /usr/share/doc/mysql-5.0.37/README
+  /usr/share/doc/Cygwin/mysql-5.0.41.README
+  /usr/share/doc/mysql-5.0.41/COPYING
+  /usr/share/doc/mysql-5.0.41/ChangeLog
+  /usr/share/doc/mysql-5.0.41/EXCEPTIONS-CLIENT
+  /usr/share/doc/mysql-5.0.41/INSTALL-SOURCE
+  /usr/share/doc/mysql-5.0.41/INSTALL-WIN-SOURCE
+  /usr/share/doc/mysql-5.0.41/README
   /usr/share/info/mysql.info.gz
   /usr/share/man/man1/msql2mysql.1.gz
   /usr/share/man/man1/myisam_ftdump.1.gz
@@ -1545,6 +1545,9 @@ Files included in the mysql-test package:
 ------------------
 
 Port Notes:
+
+----- version 5.0.41-1 -----
+Version bump.
 
 ----- version 5.0.37-1 -----
 Version bump.
