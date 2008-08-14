@@ -1,0 +1,22 @@
+--- origsrc/mysql-5.0.51/libmysql/Makefile.shared	2007-11-15 08:06:35.000000000 -0600
++++ src/mysql-5.0.51/libmysql/Makefile.shared	2008-03-24 20:25:14.500000000 -0500
+@@ -77,7 +77,7 @@
+ mysysobjects =		$(mysysobjects1) $(mysysobjects2)
+ target_libadd =		$(mysysobjects) $(mystringsobjects) $(dbugobjects) \
+  $(sql_cmn_objects) $(vio_objects) $(sqlobjects)
+-target_ldflags = -version-info @SHARED_LIB_VERSION@ @LD_VERSION_SCRIPT@ 
++target_ldflags = -version-info @SHARED_LIB_VERSION@ @LD_VERSION_SCRIPT@ -no-undefined
+ vio_objects= vio.lo viosocket.lo viossl.lo viosslfactories.lo
+ CLEANFILES =		$(target_libadd) $(SHLIBOBJS) \
+ 			$(target)
+--- origsrc/mysql-5.0.51/ndb/src/Makefile.am	2007-11-15 08:06:16.000000000 -0600
++++ src/mysql-5.0.51/ndb/src/Makefile.am	2008-03-24 20:25:14.531250000 -0500
+@@ -23,6 +23,8 @@
+ 
+ libndbclient_la_LDFLAGS = -version-info @NDB_SHARED_LIB_VERSION@ @NDB_LD_VERSION_SCRIPT@
+ 
++libndbclient_la_LDFLAGS = -no-undefined
++
+ libndbclient_la_LIBADD =  \
+               ndbapi/libndbapi.la \
+               common/transporter/libtransporter.la   \

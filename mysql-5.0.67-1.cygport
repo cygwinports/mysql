@@ -1,17 +1,23 @@
 DESCRIPTION="MySQL database client"
 HOMEPAGE="http://www.mysql.org/"
-SRC_URI="http://mysql.mirrors.pair.com/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
+SRC_URI="http://mirror.csclub.uwaterloo.ca/mysql/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
+PATCH_URI="
+	5.0.51-readline.patch
+	5.0.51-no-undefined.patch
+	5.0.51-vpath.patch
+	5.0.51-perl.patch
+"
 
 abi=15
 PKG_NAMES="${PN} lib${PN}client${abi} lib${PN}client-devel ${PN}-test"
 PKG_HINTS="setup devel test runtime"
 PKG_CONTENTS[0]="--exclude=*.dll --exclude=mysql-test --exclude=sql-bench
-                 --exclude=mysql_config etc/ usr/bin/ usr/sbin/ usr/share/"
+                 --exclude=mysql_config usr/bin/ usr/sbin/ usr/share/"
 PKG_CONTENTS[1]="usr/bin/*-${abi}.dll"
 PKG_CONTENTS[2]='usr/bin/mysql_config usr/include/ usr/lib/'
 PKG_CONTENTS[3]='usr/share/mysql/mysql-test/ usr/share/mysql/sql-bench/'
 
-DIFF_EXCLUDES='my_user.c ib_config.h ib_config.h.in'
+DIFF_EXCLUDES='my_user.c ib_config.h ib_config.h.in ndb_*.h'
 
 src_compile() {
 	cd ${S}
@@ -29,10 +35,6 @@ src_compile() {
 src_install() {
 	cd ${B}
 	cyginstall
-
-	# perl-DBD-mysql wants this
-	insinto /usr/include/mysql
-	doins ${S}/include/mysqld_error.h
 
 	dodir /usr/bin
 	mv ${D}/usr/lib/bin/*.dll ${D}/usr/bin

@@ -1,0 +1,67 @@
+--- origsrc/mysql-5.0.51/client/mysql.cc	2007-11-15 08:06:34.000000000 -0600
++++ src/mysql-5.0.51/client/mysql.cc	2008-03-24 20:25:14.437500000 -0500
+@@ -87,6 +87,7 @@
+ #include <conio.h>
+ #elif !defined(__NETWARE__)
+ #include <readline/readline.h>
++#include <readline/history.h>
+ #define HAVE_READLINE
+ #endif
+   //int vidattr(long unsigned int attrs);	// Was missing in sun curses
+@@ -306,22 +307,6 @@
+ { "server", "embedded", "mysql_SERVER", 0 };
+ 
+ #ifdef HAVE_READLINE
+-/*
+- HIST_ENTRY is defined for libedit, but not for the real readline
+- Need to redefine it for real readline to find it
+-*/
+-#if !defined(HAVE_HIST_ENTRY)
+-typedef struct _hist_entry {
+-  const char      *line;
+-  const char      *data;
+-} HIST_ENTRY; 
+-#endif
+-
+-extern "C" int add_history(const char *command); /* From readline directory */
+-extern "C" int read_history(const char *command);
+-extern "C" int write_history(const char *command);
+-extern "C" HIST_ENTRY *history_get(int num);
+-extern "C" int history_length;
+ static int not_in_history(const char *line);
+ static void initialize_readline (char *name);
+ static void fix_history(String *final_command);
+--- origsrc/mysql-5.0.51/config/ac-macros/readline.m4	2007-11-15 08:06:34.000000000 -0600
++++ src/mysql-5.0.51/config/ac-macros/readline.m4	2008-03-24 20:25:14.468750000 -0500
+@@ -1,9 +1,9 @@
+ AC_DEFUN([MYSQL_CHECK_READLINE_DECLARES_HIST_ENTRY], [
+-    AC_CACHE_CHECK([HIST_ENTRY is declared in readline/readline.h], mysql_cv_hist_entry_declared,
++    AC_CACHE_CHECK([HIST_ENTRY is declared in readline/history.h], mysql_cv_hist_entry_declared,
+ 	AC_TRY_COMPILE(
+ 	    [
+ 		#include "stdio.h"
+-		#include "readline/readline.h"
++		#include "readline/history.h"
+ 	    ],
+ 	    [ 
+ 		HIST_ENTRY entry;
+--- origsrc/mysql-5.0.51/configure.in	2007-11-15 08:06:32.000000000 -0600
++++ src/mysql-5.0.51/configure.in	2008-03-24 20:25:14.484375000 -0500
+@@ -2537,7 +2537,7 @@
+     MYSQL_CHECK_NEW_RL_INTERFACE
+     MYSQL_CHECK_READLINE_DECLARES_HIST_ENTRY
+     AC_LANG_RESTORE
+-    if [test "$mysql_cv_new_rl_interface" = "yes"] && [test -d "./cmd-line-utils/readline"]
++    if [test "$mysql_cv_new_rl_interface" = "yes"] && [test -d "${srcdir}/cmd-line-utils/readline"]
+     then
+         # Use the new readline interface, but only if the package includes a bundled libreadline
+         # this way we avoid linking commercial source with GPL readline
+@@ -2554,7 +2554,7 @@
+ fi
+ 
+ # if there is no readline, but we want to build with readline, we fail
+-if [test "$want_to_use_readline" = "yes"] && [test ! -d "./cmd-line-utils/readline"]
++if [test "$want_to_use_readline" = "yes"] && [test ! -d "${srcdir}/cmd-line-utils/readline"]
+ then
+     AC_MSG_ERROR([This commercially licensed MySQL source package can't
+           be built with libreadline. Please use --with-libedit to use

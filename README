@@ -3,28 +3,28 @@ mysql
 Open Source version of the MySQL database engine.
 
 NOTE:
-The server is known not to work on Cygwin; search the main list for
+Using the server on Cygwin has mixed results; search the main list for
 details. This can still be used to connect to a native Win32 server or a
 remote server.
 
 Runtime requirements:
-  cygwin-1.5.25-7
+  cygwin-1.5.25-15
   crypt-1.1-1
-  libreadline6-5.2.7-9
-  openssl-0.9.8g-1
+  libreadline6-5.2.12-10
+  openssl-0.9.8h-1
   zlib-1.2.3-2
 
 Build requirements:
 (besides corresponding -devel packages)
   autoconf2.5-2.61-1
   automake1.9-1.9.6-2
-  binutils-20060817-1
+  binutils-20080523-2
   bison-2.3-1
-  cygport-0.3.8-1
-  flex-2.5.34-1
+  cygport-0.3.12-1
+  flex-2.5.35-1
   gawk-3.1.6-1
   gcc-core-3.4.4-3
-  libtool1.5-1.5.23a-2
+  libtool-2.2.2-2
   make-3.81-1
   sed-4.1.5-2
 
@@ -37,25 +37,24 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mysql-5.0.51-X-src.tar.bz2
+  unpack mysql-5.0.67-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mysql-5.0.51-X.cygport all
+  cygport ./mysql-5.0.67-X.cygport all
 
 This will create:
-  /usr/src/libmysqlclient-devel-5.0.51-X.tar.bz2
-  /usr/src/libmysqlclient15-5.0.51-X.tar.bz2
-  /usr/src/mysql-5.0.51-X-src.tar.bz2
-  /usr/src/mysql-5.0.51-X.tar.bz2
-  /usr/src/mysql-test-5.0.51-X.tar.bz2
+  /usr/src/libmysqlclient-devel-5.0.67-X.tar.bz2
+  /usr/src/libmysqlclient15-5.0.67-X.tar.bz2
+  /usr/src/mysql-5.0.67-X-src.tar.bz2
+  /usr/src/mysql-5.0.67-X.tar.bz2
+  /usr/src/mysql-test-5.0.67-X.tar.bz2
 
 -------------------------------------------
 
 Files included in the binary packages:
 
 (mysql)
-  /etc/postinstall/mysql.sh
   /usr/bin/comp_err.exe
   /usr/bin/innochecksum.exe
   /usr/bin/msql2mysql
@@ -102,12 +101,12 @@ Files included in the binary packages:
   /usr/bin/resolveip.exe
   /usr/sbin/mysqld.exe
   /usr/sbin/mysqlmanager.exe
-  /usr/share/doc/mysql-5.0.51/COPYING
-  /usr/share/doc/mysql-5.0.51/ChangeLog
-  /usr/share/doc/mysql-5.0.51/EXCEPTIONS-CLIENT
-  /usr/share/doc/mysql-5.0.51/INSTALL-SOURCE
-  /usr/share/doc/mysql-5.0.51/INSTALL-WIN-SOURCE
-  /usr/share/doc/mysql-5.0.51/README
+  /usr/share/doc/mysql-5.0.67/COPYING
+  /usr/share/doc/mysql-5.0.67/ChangeLog
+  /usr/share/doc/mysql-5.0.67/EXCEPTIONS-CLIENT
+  /usr/share/doc/mysql-5.0.67/INSTALL-SOURCE
+  /usr/share/doc/mysql-5.0.67/INSTALL-WIN-SOURCE
+  /usr/share/doc/mysql-5.0.67/README
   /usr/share/info/mysql.info.gz
   /usr/share/man/man1/comp_err.1.gz
   /usr/share/man/man1/innochecksum.1.gz
@@ -284,6 +283,9 @@ Files included in the binary packages:
 ------------------
 
 Port Notes:
+
+----- version 5.0.67-1 -----
+Version bump.
 
 ----- version 5.0.51-1 -----
 Version bump.
