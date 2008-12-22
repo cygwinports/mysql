@@ -1,7 +1,7 @@
-category: Database Libs
+category: Database
 requires: cygwin openssl zlib
 external-source: mysql
-sdesc: "MySQL database (client libraries)"
+sdesc: "MySQL database client library (runtime)"
 ldesc: "Open Source version of the MySQL database engine.
 This package contains only the client components, as the server
 is known not to work on Cygwin; search the main list for details.

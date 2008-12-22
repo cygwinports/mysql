@@ -1,0 +1,27 @@
+--- origsrc/mysql-5.0.75/configure.in	2008-12-22 11:17:21.646750000 -0600
++++ src/mysql-5.0.75/configure.in	2008-12-22 12:50:02.553000000 -0600
+@@ -2512,13 +2512,23 @@
+     [with_bench=yes]
+ )
+ 
++# Shall we build the bench code?
++AC_ARG_WITH(tests,
++    [  --without-tests         Skip building of the test suite.],
++    [with_tests=$withval],
++    [with_tests=yes]
++)
++
+ if test "$with_bench" = "yes"
+ then
+   bench_dirs="sql-bench"
+ else
+   bench_dirs=""
+ fi
+-bench_dirs="$bench_dirs mysql-test"
++if test "$with_tests" = "yes"
++then
++  bench_dirs="$bench_dirs mysql-test"
++fi
+ AC_SUBST(bench_dirs)
+ 
+ # Don't build readline, i have it already

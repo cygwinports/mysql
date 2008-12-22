@@ -2,29 +2,23 @@ mysql
 ------------------------------------------
 Open Source version of the MySQL database engine.
 
-NOTE:
-Using the server on Cygwin has mixed results; search the main list for
-details. This can still be used to connect to a native Win32 server or a
-remote server.
-
 Runtime requirements:
   cygwin-1.5.25-15
-  crypt-1.1-1
-  libreadline6-5.2.12-10
-  openssl-0.9.8h-1
+  libreadline6-5.2.13-11
+  openssl-0.9.8i-1
   zlib-1.2.3-2
 
 Build requirements:
 (besides corresponding -devel packages)
-  autoconf2.5-2.61-1
-  automake1.9-1.9.6-2
-  binutils-20080523-2
+  autoconf2.5-2.63-1
+  automake1.9-1.9.6-3
+  binutils-20080624-2
   bison-2.3-1
-  cygport-0.3.12-1
+  cygport-0.4.3-1
   flex-2.5.35-1
   gawk-3.1.6-1
   gcc-core-3.4.4-3
-  libtool-2.2.2-2
+  libtool-2.2.6a-1
   make-3.81-1
   sed-4.1.5-2
 
@@ -37,18 +31,17 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mysql-5.0.67-X-src.tar.bz2
+  unpack mysql-5.0.75-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mysql-5.0.67-X.cygport all
+  cygport ./mysql-5.0.75-X.cygport all
 
 This will create:
-  /usr/src/libmysqlclient-devel-5.0.67-X.tar.bz2
-  /usr/src/libmysqlclient15-5.0.67-X.tar.bz2
-  /usr/src/mysql-5.0.67-X-src.tar.bz2
-  /usr/src/mysql-5.0.67-X.tar.bz2
-  /usr/src/mysql-test-5.0.67-X.tar.bz2
+  /usr/src/libmysqlclient-devel-5.0.75-X.tar.bz2
+  /usr/src/libmysqlclient15-5.0.75-X.tar.bz2
+  /usr/src/mysql-5.0.75-X-src.tar.bz2
+  /usr/src/mysql-5.0.75-X.tar.bz2
 
 -------------------------------------------
 
@@ -56,13 +49,8 @@ Files included in the binary packages:
 
 (mysql)
   /usr/bin/comp_err.exe
-  /usr/bin/innochecksum.exe
   /usr/bin/msql2mysql
   /usr/bin/my_print_defaults.exe
-  /usr/bin/myisam_ftdump.exe
-  /usr/bin/myisamchk.exe
-  /usr/bin/myisamlog.exe
-  /usr/bin/myisampack.exe
   /usr/bin/mysql.exe
   /usr/bin/mysql_client_test.exe
   /usr/bin/mysql_convert_table_format
@@ -70,11 +58,9 @@ Files included in the binary packages:
   /usr/bin/mysql_find_rows
   /usr/bin/mysql_fix_extensions
   /usr/bin/mysql_fix_privilege_tables
-  /usr/bin/mysql_install_db
   /usr/bin/mysql_secure_installation
   /usr/bin/mysql_setpermission
   /usr/bin/mysql_tableinfo
-  /usr/bin/mysql_tzinfo_to_sql.exe
   /usr/bin/mysql_upgrade.exe
   /usr/bin/mysql_upgrade_shell
   /usr/bin/mysql_waitpid.exe
@@ -85,7 +71,6 @@ Files included in the binary packages:
   /usr/bin/mysqlbug
   /usr/bin/mysqlcheck.exe
   /usr/bin/mysqld_multi
-  /usr/bin/mysqld_safe
   /usr/bin/mysqldump.exe
   /usr/bin/mysqldumpslow
   /usr/bin/mysqlhotcopy
@@ -99,14 +84,12 @@ Files included in the binary packages:
   /usr/bin/replace.exe
   /usr/bin/resolve_stack_dump.exe
   /usr/bin/resolveip.exe
-  /usr/sbin/mysqld.exe
-  /usr/sbin/mysqlmanager.exe
-  /usr/share/doc/mysql-5.0.67/COPYING
-  /usr/share/doc/mysql-5.0.67/ChangeLog
-  /usr/share/doc/mysql-5.0.67/EXCEPTIONS-CLIENT
-  /usr/share/doc/mysql-5.0.67/INSTALL-SOURCE
-  /usr/share/doc/mysql-5.0.67/INSTALL-WIN-SOURCE
-  /usr/share/doc/mysql-5.0.67/README
+  /usr/share/doc/mysql-5.0.75/COPYING
+  /usr/share/doc/mysql-5.0.75/ChangeLog
+  /usr/share/doc/mysql-5.0.75/EXCEPTIONS-CLIENT
+  /usr/share/doc/mysql-5.0.75/INSTALL-SOURCE
+  /usr/share/doc/mysql-5.0.75/INSTALL-WIN-SOURCE
+  /usr/share/doc/mysql-5.0.75/README
   /usr/share/info/mysql.info.gz
   /usr/share/man/man1/comp_err.1.gz
   /usr/share/man/man1/innochecksum.1.gz
@@ -123,7 +106,6 @@ Files included in the binary packages:
   /usr/share/man/man1/mysql.1.gz
   /usr/share/man/man1/mysql.server.1.gz
   /usr/share/man/man1/mysql_client_test.1.gz
-  /usr/share/man/man1/mysql_config.1.gz
   /usr/share/man/man1/mysql_convert_table_format.1.gz
   /usr/share/man/man1/mysql_explain_log.1.gz
   /usr/share/man/man1/mysql_find_rows.1.gz
@@ -140,6 +122,7 @@ Files included in the binary packages:
   /usr/share/man/man1/mysqlaccess.1.gz
   /usr/share/man/man1/mysqladmin.1.gz
   /usr/share/man/man1/mysqlbinlog.1.gz
+  /usr/share/man/man1/mysqlbug.1.gz
   /usr/share/man/man1/mysqlcheck.1.gz
   /usr/share/man/man1/mysqld_multi.1.gz
   /usr/share/man/man1/mysqld_safe.1.gz
@@ -147,8 +130,6 @@ Files included in the binary packages:
   /usr/share/man/man1/mysqlhotcopy.1.gz
   /usr/share/man/man1/mysqlimport.1.gz
   /usr/share/man/man1/mysqlman.1.gz
-  /usr/share/man/man1/mysqlmanager-pwgen.1.gz
-  /usr/share/man/man1/mysqlmanagerc.1.gz
   /usr/share/man/man1/mysqlshow.1.gz
   /usr/share/man/man1/mysqltest.1.gz
   /usr/share/man/man1/perror.1.gz
@@ -156,51 +137,8 @@ Files included in the binary packages:
   /usr/share/man/man1/resolve_stack_dump.1.gz
   /usr/share/man/man1/resolveip.1.gz
   /usr/share/man/man1/safe_mysqld.1.gz
-  /usr/share/man/man8/mysqld.8.gz
-  /usr/share/man/man8/mysqlmanager.8.gz
   /usr/share/mysql/binary-configure
-  /usr/share/mysql/charsets/Index.xml
-  /usr/share/mysql/charsets/README
-  /usr/share/mysql/charsets/armscii8.xml
-  /usr/share/mysql/charsets/ascii.xml
-  /usr/share/mysql/charsets/cp1250.xml
-  /usr/share/mysql/charsets/cp1251.xml
-  /usr/share/mysql/charsets/cp1256.xml
-  /usr/share/mysql/charsets/cp1257.xml
-  /usr/share/mysql/charsets/cp850.xml
-  /usr/share/mysql/charsets/cp852.xml
-  /usr/share/mysql/charsets/cp866.xml
-  /usr/share/mysql/charsets/dec8.xml
-  /usr/share/mysql/charsets/geostd8.xml
-  /usr/share/mysql/charsets/greek.xml
-  /usr/share/mysql/charsets/hebrew.xml
-  /usr/share/mysql/charsets/hp8.xml
-  /usr/share/mysql/charsets/keybcs2.xml
-  /usr/share/mysql/charsets/koi8r.xml
-  /usr/share/mysql/charsets/koi8u.xml
-  /usr/share/mysql/charsets/latin1.xml
-  /usr/share/mysql/charsets/latin2.xml
-  /usr/share/mysql/charsets/latin5.xml
-  /usr/share/mysql/charsets/latin7.xml
-  /usr/share/mysql/charsets/macce.xml
-  /usr/share/mysql/charsets/macroman.xml
-  /usr/share/mysql/charsets/swe7.xml
-  /usr/share/mysql/czech/errmsg.sys
-  /usr/share/mysql/danish/errmsg.sys
-  /usr/share/mysql/dutch/errmsg.sys
-  /usr/share/mysql/english/errmsg.sys
-  /usr/share/mysql/errmsg.txt
-  /usr/share/mysql/estonian/errmsg.sys
   /usr/share/mysql/fill_help_tables.sql
-  /usr/share/mysql/french/errmsg.sys
-  /usr/share/mysql/german/errmsg.sys
-  /usr/share/mysql/greek/errmsg.sys
-  /usr/share/mysql/hungarian/errmsg.sys
-  /usr/share/mysql/italian/errmsg.sys
-  /usr/share/mysql/japanese/errmsg.sys
-  /usr/share/mysql/korean/errmsg.sys
-  /usr/share/mysql/mi_test_all
-  /usr/share/mysql/mi_test_all.res
   /usr/share/mysql/my-huge.cnf
   /usr/share/mysql/my-innodb-heavy-4G.cnf
   /usr/share/mysql/my-large.cnf
@@ -214,17 +152,6 @@ Files included in the binary packages:
   /usr/share/mysql/mysql_test_data_timezone.sql
   /usr/share/mysql/mysqld_multi.server
   /usr/share/mysql/ndb-config-2-node.ini
-  /usr/share/mysql/norwegian-ny/errmsg.sys
-  /usr/share/mysql/norwegian/errmsg.sys
-  /usr/share/mysql/polish/errmsg.sys
-  /usr/share/mysql/portuguese/errmsg.sys
-  /usr/share/mysql/romanian/errmsg.sys
-  /usr/share/mysql/russian/errmsg.sys
-  /usr/share/mysql/serbian/errmsg.sys
-  /usr/share/mysql/slovak/errmsg.sys
-  /usr/share/mysql/spanish/errmsg.sys
-  /usr/share/mysql/swedish/errmsg.sys
-  /usr/share/mysql/ukrainian/errmsg.sys
 
 (libmysqlclient15)
   /usr/bin/cygmysqlclient-15.dll
@@ -265,24 +192,23 @@ Files included in the binary packages:
   /usr/include/mysql/sslopt-vars.h
   /usr/include/mysql/typelib.h
   /usr/lib/mysql/libdbug.a
-  /usr/lib/mysql/libheap.a
-  /usr/lib/mysql/libmyisam.a
-  /usr/lib/mysql/libmyisammrg.a
+  /usr/lib/mysql/libmysqlclient.a
   /usr/lib/mysql/libmysqlclient.dll.a
   /usr/lib/mysql/libmysqlclient.la
+  /usr/lib/mysql/libmysqlclient_r.a
   /usr/lib/mysql/libmysqlclient_r.dll.a
   /usr/lib/mysql/libmysqlclient_r.la
   /usr/lib/mysql/libmystrings.a
   /usr/lib/mysql/libmysys.a
-  /usr/lib/mysql/libvio.a
-
-(mysql-test)
-  /usr/share/mysql/mysql-test/*/*
-  /usr/share/mysql/sql-bench/*/*/*
+  /usr/share/man/man1/mysql_config.1.gz
 
 ------------------
 
 Port Notes:
+
+----- version 5.0.75-1 -----
+Version bump.
+Disabled the server build until it actually works.
 
 ----- version 5.0.67-1 -----
 Version bump.

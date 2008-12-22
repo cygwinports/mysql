@@ -1,7 +1,6 @@
-category: Database Libs
-requires: cygwin libmysqlclient15 openssl-devel zlib
-external-source: mysql
-sdesc: "MySQL database (development files)"
+category: Database
+requires: cygwin libmysqlclient15 libreadline6
+sdesc: "MySQL database client apps"
 ldesc: "Open Source version of the MySQL database engine.
 This package contains only the client components, as the server
 is known not to work on Cygwin; search the main list for details.
