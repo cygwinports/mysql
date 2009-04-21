@@ -1,0 +1,26 @@
+--- origsrc/mysql-5.1.32/configure.in	2009-02-13 18:52:06.000000000 -0600
++++ src/mysql-5.1.32/configure.in	2009-04-01 23:04:40.722250000 -0500
+@@ -2618,7 +2618,7 @@ case $SYSTEM_TYPE in
+     fi
+ 
+     # if there is no readline, but we want to build with readline, we fail
+-    if [test "$want_to_use_readline" = "yes"] && [test ! -d "./cmd-line-utils/readline"]
++    if [test "$want_to_use_readline" = "yes"] && [test ! -d "$srcdir/cmd-line-utils/readline"]
+     then
+ 	AC_MSG_ERROR([This commercially licensed MySQL source package can't
+ 	      be built with libreadline. Please use --with-libedit to use
+--- origsrc/mysql-5.1.32/dbug/Makefile.am	2009-02-13 18:52:06.000000000 -0600
++++ src/mysql-5.1.32/dbug/Makefile.am	2009-04-01 23:08:01.894125000 -0500
+@@ -38,10 +38,10 @@ dbug_analyze_SOURCES =  dbug_analyze.c
+ all:            user.t user.ps
+ 
+ user.t:         user.r $(NROFF_INC)
+-		-nroff -mm user.r > $@
++		-nroff -mm $< > $@
+ 
+ user.ps:	user.r $(NROFF_INC)
+-		-groff -mm user.r > $@
++		-groff -mm $< > $@
+ 
+ output1.r:      factorial
+ 		./factorial 1 2 3 4 5 | cat > $@

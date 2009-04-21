@@ -1,5 +1,5 @@
 category: Database
-requires: cygwin libmysqlclient15 openssl-devel zlib
+requires: cygwin libmysqlclient16 openssl-devel zlib-devel
 external-source: mysql
 sdesc: "MySQL database client library (development)"
 ldesc: "Open Source version of the MySQL database engine.
