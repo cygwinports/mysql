@@ -2,31 +2,39 @@ DESCRIPTION="MySQL database client"
 HOMEPAGE="http://www.mysql.org/"
 SRC_URI="http://mysql.mirror.rafal.ca/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
 PATCH_URI="
-	5.1.32-no-undefined.patch
+	5.1.39-no-undefined.patch
 	5.1.32-vpath.patch
 "
 
-PKG_NAMES="${PN} libmysqlclient16 libmysqlclient-devel" # ${PN}-test"
+PKG_NAMES="${PN} libmysqlclient16 libmysqlclient-devel libmysqld-devel" # ${PN}-test"
 mysql_CONTENTS="--exclude=mysql_config* --exclude=*.dll usr/bin/ usr/sbin/
                 usr/share/doc/ usr/share/info/ usr/share/man/ usr/share/mysql/"
 libmysqlclient16_CONTENTS="usr/bin/*-16.dll"
-libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/ usr/lib/
-                               usr/share/aclocal/ usr/share/man/man1/mysql_config.*"
+libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
+                               usr/lib/mysql/libmysqlclient* usr/share/aclocal/
+                               usr/share/man/man1/mysql_config.*"
+libmysqld_devel_CONTENTS="--exclude=libmysqlclient* usr/lib/mysql/"
 #mysql_test_CONTENTS='usr/share/mysql/mysql-test/ usr/share/mysql/sql-bench/'
 PKG_IGNORE="usr/mysql-test/ usr/sql-bench/"
 
 DIFF_EXCLUDES="mysql-test sql-bench my_user.c ib_config.h ib_config.h.in
                ndb_*.h sql_builtin.cc"
 
+# --with-plugin-FOO: forces static link into mysqld instead of dynamic plugin
+# --without-plugin-FOO: dynamic-only plugins, depend on symbols in mysqld
 CYGCONF_ARGS="
+	--libexecdir=/usr/sbin
 	--enable-thread-safe-client
-	--with-comment --with-ssl=/usr --with-zlib-dir=/usr
+	--with-embedded-server
 	--without-readline --without-libedit
 	--with-plugin-archive
 	--with-plugin-blackhole
 	--with-plugin-federated
 	--with-plugin-innobase
 	--without-plugin-example
+	--without-plugin-ibmdb2i
+	--without-plugin-innodb_plugin
+	--with-ssl=/usr --with-zlib-dir=/usr
 "
 MAKEOPTS+=" -j1"
 
@@ -37,9 +45,6 @@ src_install() {
 	dodir /usr/bin
 	mv ${D}/usr/lib/bin/*.dll ${D}/usr/bin
 	sed -i -e 's!\.\./bin/!../../bin/!' ${D}/usr/lib/${PN}/*.la
-
-#	mv ${D}/usr/mysql-test ${D}/usr/sql-bench ${D}/usr/share/mysql/
-#	rm -fr ${D}/usr/share/man/man8/
 
 	cd ${S}
 	dodoc EXCEPTIONS-CLIENT INSTALL-SOURCE INSTALL-WIN-SOURCE

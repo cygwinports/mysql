@@ -1,8 +1,8 @@
---- origsrc/mysql-5.1.32/client/Makefile.am	2009-02-13 18:51:56.000000000 -0600
-+++ src/mysql-5.1.32/client/Makefile.am	2009-04-02 00:51:41.050375000 -0500
+--- origsrc/mysql-5.1.39/client/Makefile.am	2009-09-04 11:17:16.000000000 -0500
++++ src/mysql-5.1.39/client/Makefile.am	2009-09-29 20:33:35.319977900 -0500
 @@ -73,26 +73,26 @@ mysqldump_SOURCES=              mysqldum
  mysqlimport_SOURCES=		mysqlimport.c
- 
+ mysqlimport_CFLAGS=		-DTHREAD -UUNDEF_THREADS_HACK
  mysqlimport_LDADD =		$(CXXLDFLAGS) $(CLIENT_THREAD_LIBS) \
 +				$(top_builddir)/mysys/libmysys.a \
  				@CLIENT_EXTRA_LDFLAGS@ \
@@ -13,7 +13,7 @@
  mysqlshow_SOURCES=		mysqlshow.c
  
  mysqlslap_SOURCES=		mysqlslap.c
- mysqlslap_CFLAGS=		-DTHREAD -UUNDEF_THREADS_HACK
+ mysqlslap_CFLAGS=		-DTHREAD -UMYSQL_CLIENT_NO_THREADS
  mysqlslap_LDADD =		$(CXXLDFLAGS) $(CLIENT_THREAD_LIBS) \
 +				$(top_builddir)/mysys/libmysys.a \
  				@CLIENT_EXTRA_LDFLAGS@ \
@@ -22,18 +22,19 @@
 +				$(LIBMYSQLCLIENT_LA)
  
  mysqltest_SOURCES=		mysqltest.cc
- mysqltest_CXXFLAGS=		-DTHREAD -UUNDEF_THREADS_HACK
+ mysqltest_CXXFLAGS=		-DTHREAD -UMYSQL_CLIENT_NO_THREADS
  mysqltest_LDADD =		$(CXXLDFLAGS) $(CLIENT_THREAD_LIBS) \
- 				@CLIENT_EXTRA_LDFLAGS@ \
+-				@CLIENT_EXTRA_LDFLAGS@ \
 -				$(LIBMYSQLCLIENT_LA) \
  				$(top_builddir)/mysys/libmysys.a \
  				$(top_builddir)/regex/libregex.a \
++				@CLIENT_EXTRA_LDFLAGS@ \
 +				$(LIBMYSQLCLIENT_LA) \
  				$(CLIENT_THREAD_LIBS)
  
  mysql_upgrade_SOURCES=          mysql_upgrade.c \
---- origsrc/mysql-5.1.32/libmysql/Makefile.shared	2009-02-13 18:52:21.000000000 -0600
-+++ src/mysql-5.1.32/libmysql/Makefile.shared	2009-03-18 12:56:34.779375000 -0500
+--- origsrc/mysql-5.1.39/libmysql/Makefile.shared	2009-09-04 11:17:39.000000000 -0500
++++ src/mysql-5.1.39/libmysql/Makefile.shared	2009-09-29 20:38:18.218050500 -0500
 @@ -77,7 +77,7 @@ mysysobjects2 =		my_lib.lo mf_qsort.lo
  mysysobjects =		$(mysysobjects1) $(mysysobjects2)
  target_libadd =		$(mysysobjects) $(mystringsobjects) $(dbugobjects) \
