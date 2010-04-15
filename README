@@ -12,26 +12,26 @@ through a UNIX socket, which cannot be done with the native Windows
 server.)
 
 Runtime requirements:
-  cygwin-1.7.0-61
+  cygwin-1.7.1-1
   crypt-1.1-1
-  libgcc1-4.3.2-2
+  libgcc1-4.3.4-3
   libreadline7-6.0.3-2
-  libstdc++6-4.3.2-2
-  openssl-0.9.8k-2
+  libstdc++6-4.3.4-3
+  openssl-0.9.8m-1
   zlib0-1.2.3-10
 
 Build requirements:
 (besides corresponding -devel packages)
-  autoconf2.5-2.63-10
-  automake1.9-1.9.6-10
+  autoconf2.5-2.65-1
+  automake1.10-1.10.3-1
   binutils-2.19.51-1
   bison-2.3-1
-  cygport-0.9.9-1
+  cygport-0.9.81-1
   flex-2.5.35-1
   gawk-3.1.7-1
-  gcc4-core-4.3.2-2
-  gcc4-g++-4.3.2-2
-  libtool-2.2.7a-14
+  gcc4-core-4.3.4-3
+  gcc4-g++-4.3.4-3
+  libtool-2.2.7a-15
   make-3.81-2
   sed-4.1.5-2
 
@@ -44,22 +44,25 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mysql-5.1.39-X-src.tar.bz2
+  unpack mysql-5.1.45-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mysql-5.1.39-X.cygport all
+  cygport ./mysql-5.1.45-X.cygport all
 
 This will create:
-  /usr/src/libmysqlclient-devel-5.1.39-X.tar.bz2
-  /usr/src/libmysqlclient16-5.1.39-X.tar.bz2
-  /usr/src/libmysqld-devel-5.1.39-X.tar.bz2
-  /usr/src/mysql-5.1.39-X-src.tar.bz2
-  /usr/src/mysql-5.1.39-X.tar.bz2
+  /usr/src/libmysqlclient-devel-5.1.45-X.tar.bz2
+  /usr/src/libmysqlclient16-5.1.45-X.tar.bz2
+  /usr/src/libmysqld-devel-5.1.45-X.tar.bz2
+  /usr/src/mysql-5.1.45-X-src.tar.bz2
+  /usr/src/mysql-5.1.45-X.tar.bz2
 
 -------------------------------------------
 
 Port Notes:
+
+----- version 5.1.45-1 -----
+Version bump.
 
 ----- version 5.1.39-1 -----
 Version bump.

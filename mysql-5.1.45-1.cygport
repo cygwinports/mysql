@@ -7,15 +7,15 @@ PATCH_URI="
 "
 
 PKG_NAMES="${PN} libmysqlclient16 libmysqlclient-devel libmysqld-devel" # ${PN}-test"
-mysql_CONTENTS="--exclude=mysql_config* --exclude=*.dll usr/bin/ usr/sbin/
-                usr/share/doc/ usr/share/info/ usr/share/man/ usr/share/mysql/"
+mysql_CONTENTS="--exclude=mysql_config* --exclude=*.dll --exclude=mysql-test
+                --exclude=sql-bench --exclude=aclocal usr/bin/ usr/sbin/ usr/share/"
 libmysqlclient16_CONTENTS="usr/bin/*-16.dll"
 libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
                                usr/lib/mysql/libmysqlclient* usr/share/aclocal/
                                usr/share/man/man1/mysql_config.*"
 libmysqld_devel_CONTENTS="--exclude=libmysqlclient* usr/lib/mysql/"
 #mysql_test_CONTENTS='usr/share/mysql/mysql-test/ usr/share/mysql/sql-bench/'
-PKG_IGNORE="usr/mysql-test/ usr/sql-bench/"
+PKG_IGNORE="usr/share/mysql/mysql-test/ usr/share/mysql/sql-bench/"
 
 DIFF_EXCLUDES="mysql-test sql-bench my_user.c ib_config.h ib_config.h.in
                ndb_*.h sql_builtin.cc"
@@ -23,10 +23,12 @@ DIFF_EXCLUDES="mysql-test sql-bench my_user.c ib_config.h ib_config.h.in
 # --with-plugin-FOO: forces static link into mysqld instead of dynamic plugin
 # --without-plugin-FOO: dynamic-only plugins, depend on symbols in mysqld
 CYGCONF_ARGS="
+	--sysconfdir=/etc/mysql
 	--libexecdir=/usr/sbin
+	--localstatedir=/var/lib/mysql
+	--sharedstatedir=/usr/share/mysql
 	--enable-thread-safe-client
 	--with-embedded-server
-	--without-readline --without-libedit
 	--with-plugin-archive
 	--with-plugin-blackhole
 	--with-plugin-federated
@@ -34,13 +36,20 @@ CYGCONF_ARGS="
 	--without-plugin-example
 	--without-plugin-ibmdb2i
 	--without-plugin-innodb_plugin
+	--without-readline --without-libedit
 	--with-ssl=/usr --with-zlib-dir=/usr
 "
 MAKEOPTS+=" -j1"
 
 src_install() {
 	cd ${B}
-	cyginstall
+	cyginstall \
+		benchdir_root="/usr/share/mysql" \
+		testroot="/usr/share/mysql"
+
+	dosym mysqlcheck.exe /usr/bin/mysqlanalyze
+	dosym mysqlcheck.exe /usr/bin/mysqloptimize
+	dosym mysqlcheck.exe /usr/bin/mysqlrepair
 
 	dodir /usr/bin
 	mv ${D}/usr/lib/bin/*.dll ${D}/usr/bin
