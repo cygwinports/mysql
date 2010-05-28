@@ -6,9 +6,7 @@ PATCH_URI="
 	5.1.32-vpath.patch
 "
 
-PKG_NAMES="${PN} libmysqlclient16 libmysqlclient-devel libmysqld-devel" # ${PN}-test"
-mysql_CONTENTS="--exclude=mysql_config* --exclude=*.dll --exclude=mysql-test
-                --exclude=sql-bench --exclude=aclocal usr/bin/ usr/sbin/ usr/share/"
+PKG_NAMES="mysql mysqld libmysqlclient16 libmysqlclient-devel libmysqld-devel" # ${PN}-test"
 libmysqlclient16_CONTENTS="usr/bin/*-16.dll"
 libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
                                usr/lib/mysql/libmysqlclient* usr/share/aclocal/
