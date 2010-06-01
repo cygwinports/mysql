@@ -49,10 +49,6 @@ src_install() {
 	dosym mysqlcheck.exe /usr/bin/mysqloptimize
 	dosym mysqlcheck.exe /usr/bin/mysqlrepair
 
-	dodir /usr/bin
-	mv ${D}/usr/lib/bin/*.dll ${D}/usr/bin
-	sed -i -e 's!\.\./bin/!../../bin/!' ${D}/usr/lib/${PN}/*.la
-
 	cd ${S}
 	dodoc EXCEPTIONS-CLIENT INSTALL-SOURCE INSTALL-WIN-SOURCE
 }
