@@ -39,11 +39,27 @@ CYGCONF_ARGS="
 "
 MAKEOPTS+=" -j1"
 
+# FIXME: add this for amarok??
+make_libmysqld_shared() {
+	mkdir -p ${B}/libmysqld/temp
+	cd ${B}/libmysqld/temp
+	ar x ../libmysqld.a
+	rm libfederated*.o
+	${CXX} -shared -Wl,--out-implib,libmysqld.dll.a \
+		-o cygmysqld-${PV[1]}.${PV[2]}.dll *.o \
+		-lssl -lcrypto -lcrypt -lz \
+		|| error "shared libmysqld creation failed"
+}
+
 src_install() {
 	cd ${B}
 	cyginstall \
 		benchdir_root="/usr/share/mysql" \
 		testroot="/usr/share/mysql"
+
+#	dobin libmysqld/temp/cygmysqld-${PV[1]}.${PV[2]}.dll
+#	insinto /usr/lib/mysql
+#	doins libmysqld/temp/libmysqld.dll.a
 
 	dosym mysqlcheck.exe /usr/bin/mysqlanalyze
 	dosym mysqlcheck.exe /usr/bin/mysqloptimize
