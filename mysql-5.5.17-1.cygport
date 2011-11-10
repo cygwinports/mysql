@@ -1,0 +1,76 @@
+inherit cmake
+
+DESCRIPTION="MySQL database client"
+HOMEPAGE="http://www.mysql.org/"
+SRC_URI="mirror://mysql/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
+PATCH_URI="
+	5.5.17-cygwin.patch
+	5.5.17-export-symbols.patch
+"
+
+PKG_NAMES="mysql mysqld mysql-test libmysqlclient18 libmysqlclient-devel
+           libmysqld0 libmysqld-devel"
+libmysqlclient18_CONTENTS="usr/bin/cygmysqlclient-18.dll"
+libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
+                               usr/lib/libmysqlclient* usr/share/aclocal/
+                               usr/share/man/man1/mysql_config.*"
+libmysqld0_CONTENTS="usr/bin/cygmysqld-0.dll"
+libmysqld_devel_CONTENTS="--exclude=libmysqlclient* usr/lib/lib*"
+mysql_test_CONTENTS='usr/share/mysql-test/'
+
+DEPS_PATH="/usr/sbin"
+
+# case-sensitivity, file is practically empty
+DISTCLEANFILES="cmake/os/Cygwin.cmake"
+DIFF_EXCLUDES="mysql-test sql-bench"
+
+CYGCMAKE_ARGS="
+	-DMYSQL_UNIX_ADDR=/var/run/mysql.sock
+	-DINSTALL_LAYOUT=RPM
+	-DWITH_ARCHIVE_STORAGE_ENGINE=ON
+	-DWITH_BLACKHOLE_STORAGE_ENGINE=ON
+	-DWITH_FEDERATED_STORAGE_ENGINE=ON
+	-DWITH_INNOBASE_STORAGE_ENGINE=ON
+	-DWITH_PARTITION_STORAGE_ENGINE=ON
+	-DWITH_PERFSCHEMA_STORAGE_ENGINE=ON
+	-DWITH_LIBWRAP=ON
+	-DWITH_EMBEDDED_SERVER=ON
+	-DWITH_LIBEDIT=OFF -DWITH_READLINE=OFF
+	-DWITH_SSL=yes
+	-DWITH_ZLIB=system
+"
+
+src_compile() {
+	cd ${B}
+	cygcmake # CYGCMAKE_ARGS defined above
+	cygmake
+
+	# make shared libmysqld
+	mkdir -p ${B}/libmysqld/temp
+	rm -f ${B}/libmysqld/temp/*
+	cd ${B}/libmysqld/temp
+	ar x ../libmysqld.a
+	# these result in undefined references (bug 59104)
+	rm -f sql_binlog.cc.o rpl_utility.cc.o
+	echo EXPORTS > libmysqld.def
+	grep '^my' ${S}/libmysql/CMakeLists.txt | sort >> libmysqld.def
+	${CXX} -shared -Wl,--out-implib,libmysqld.dll.a \
+		-o cygmysqld-0.dll libmysqld.def *.o \
+		-lssl -lcrypto -lcrypt -lz -lwrap \
+		|| error "shared libmysqld creation failed"
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	dobin libmysqld/temp/cygmysqld-0.dll
+	dolib libmysqld/temp/libmysqld.dll.a
+
+	dosym libmysqlclient.dll.a /usr/lib/libmysqlclient_r.dll.a
+	dosym mysqlcheck.exe /usr/bin/mysqlanalyze
+	dosym mysqlcheck.exe /usr/bin/mysqloptimize
+	dosym mysqlcheck.exe /usr/bin/mysqlrepair
+}
+
+DOCS="EXCEPTIONS-CLIENT INSTALL-SOURCE INSTALL-WIN-SOURCE"

@@ -1,7 +1,7 @@
 category: Database
-requires: libmysqlclient18
+requires: perl
 external-source: mysql
-sdesc: "MySQL database client library (development)"
+sdesc: "MySQL server testsuite"
 ldesc: "Open Source version of the MySQL database engine.
 This package contains only the client components, as the server
 is known not to work on Cygwin; search the main list for details.
