@@ -1,7 +1,7 @@
 inherit cmake
 
 DESCRIPTION="MySQL database client"
-HOMEPAGE="http://www.mysql.org/"
+HOMEPAGE="http://dev.mysql.com/"
 SRC_URI="mirror://mysql/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
 PATCH_URI="
 	5.5.17-cygwin.patch
