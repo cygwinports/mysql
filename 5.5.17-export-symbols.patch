@@ -9,10 +9,10 @@
 +dynstr_append_os_quoted
 +dynstr_realloc
 +init_dynamic_string
+ get_tty_password
+ handle_options
  load_defaults
- mysql_thread_end
- mysql_thread_init
-@@ -129,6 +134,7 @@ mysql_server_end
+@@ -131,6 +136,7 @@ mysql_server_end
  mysql_set_character_set
  mysql_get_character_set_info
  mysql_stmt_next_result
