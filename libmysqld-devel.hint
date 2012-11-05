@@ -1,9 +1,0 @@
-category: Database
-requires: libmysqlclient-devel libmysqld0 crypt libstdc++6-devel libwrap-devel openssl-devel zlib-devel
-external-source: mysql
-sdesc: "MySQL embedded database server library (development)"
-ldesc: "Open Source version of the MySQL database engine.
-This package contains only the client components, as the server
-is known not to work on Cygwin; search the main list for details.
-This can still be used to connect to a native Win32 server or a
-remote server."
