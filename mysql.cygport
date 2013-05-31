@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.28
+VERSION=5.5.31
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
@@ -46,7 +46,7 @@ mysqld_CONTENTS="usr/bin/msql2mysql usr/bin/myisamchk.exe usr/bin/myisamlog.exe
 	usr/bin/mysql_setpermission usr/bin/mysql_tzinfo_to_sql.exe
 	usr/bin/mysql_upgrade.exe usr/bin/mysql_zap usr/bin/mysqlbinlog.exe
 	usr/bin/mysqld_* usr/bin/mysqlhotcopy usr/bin/mysqltest.exe usr/bin/perror.exe
-	usr/bin/replace.exe usr/bin/resolve* usr/lib/mysql/plugin/
+	usr/bin/replace.exe usr/bin/resolve* usr/lib/mysql/plugins/
 	usr/sbin/mysqld.exe usr/share/man/man1/msql2mysql.*
 	usr/share/man/man1/myisamchk.* usr/share/man/man1/myisamlog.*
 	usr/share/man/man1/myisampack.* usr/share/man/man1/mysql_convert_table_format.*
@@ -82,6 +82,9 @@ DIFF_EXCLUDES="mysql-test sql-bench"
 CYGCMAKE_ARGS="
 	-DMYSQL_UNIX_ADDR=/var/run/mysql.sock
 	-DINSTALL_LAYOUT=RPM
+	-DINSTALL_LIBDIR=lib
+	-DINSTALL_PLUGINDIR=lib/${NAME}/plugins
+	-DMANUFACTURER=Cygwin
 	-DWITH_ARCHIVE_STORAGE_ENGINE=ON
 	-DWITH_BLACKHOLE_STORAGE_ENGINE=ON
 	-DWITH_FEDERATED_STORAGE_ENGINE=ON
