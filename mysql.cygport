@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.31
+VERSION=5.5.35
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
@@ -26,7 +26,7 @@ mysql_CONTENTS="usr/bin/innochecksum.exe usr/bin/myisam_ftdump.exe usr/bin/mysql
 	usr/bin/mysqlshow.exe usr/bin/mysqlslap.exe usr/bin/mysqltest_embedded.exe
 	usr/bin/mysql_client* usr/bin/mysql_embedded.exe usr/bin/mysql_find_rows
 	usr/bin/mysql_fix_extensions usr/bin/mysql_waitpid.exe usr/bin/my_print_defaults.exe
-	usr/share/doc/ usr/share/info/ usr/share/man/man1/comp_err.*
+	usr/share/doc/ usr/share/man/man1/comp_err.*
 	usr/share/man/man1/innochecksum.* usr/share/man/man1/myisam_ftdump.*
 	usr/share/man/man1/mysql-stress-test.pl.* usr/share/man/man1/mysql-test-run.pl.*
 	usr/share/man/man1/mysql.1* usr/share/man/man1/mysqlaccess.*
