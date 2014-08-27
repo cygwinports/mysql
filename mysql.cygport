@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.35
+VERSION=5.5.39
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
