@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.39
+VERSION=5.5.40
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
@@ -65,13 +65,13 @@ libmysqlclient18_CONTENTS="usr/bin/cygmysqlclient-18.dll"
 libmysqlclient_devel_SUMMARY="MySQL database client library (development)"
 libmysqlclient_devel_REQUIRES="openssl-devel zlib-devel"
 libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
-                               usr/lib/libmysqlclient* usr/share/aclocal/
+                               usr/lib/libmysqlclient*.dll.a usr/share/aclocal/
                                usr/share/man/man1/mysql_config.*"
 libmysqld0_SUMMARY="MySQL embedded database server library (runtime)"
 libmysqld0_CONTENTS="usr/bin/cygmysqld-0.dll"
 libmysqld_devel_SUMMARY="MySQL embedded database server library (development)"
 libmysqld_devel_REQUIRES="libmysqlclient-devel openssl-devel libwrap-devel zlib-devel"
-libmysqld_devel_CONTENTS="--exclude=libmysqlclient* usr/lib/lib*"
+libmysqld_devel_CONTENTS="usr/lib/libmysqld.dll.a"
 
 DEPS_PATH="/usr/sbin"
 
@@ -121,6 +121,7 @@ src_compile() {
 src_install() {
 	cd ${B}
 	cyginstall
+	find ${D}/usr/lib/ -name '*.a' ! -name '*.dll.a' -delete
 
 	dobin libmysqld/temp/cygmysqld-0.dll
 	dolib libmysqld/temp/libmysqld.dll.a
