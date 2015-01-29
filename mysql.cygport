@@ -2,7 +2,7 @@ inherit cmake
 
 NAME="mysql"
 VERSION=5.5.41
-RELEASE=1
+RELEASE=2
 CATEGORY="Database"
 SUMMARY="MySQL database client"
 DESCRIPTION="MySQL delivers a very fast, multi-threaded, multi-user, and robust
