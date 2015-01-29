@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.40
+VERSION=5.5.41
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
@@ -10,7 +10,7 @@ SQL (Structured Query Language) database server.  The client components are
 stable, but the daemon should be considered experimental and not ready for
 mission-critical deployment."
 HOMEPAGE="http://dev.mysql.com/"
-SRC_URI="mirror://mysql/Downloads/MySQL-${PV_MAJ_MIN}/${P}.tar.gz"
+SRC_URI="mirror://mysql/Downloads/MySQL-${PV_MAJ_MIN}/mysql-${VERSION}.tar.gz"
 PATCH_URI="
 	5.5.17-cygwin.patch
 	5.5.17-export-symbols.patch
