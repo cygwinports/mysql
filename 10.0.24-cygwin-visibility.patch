@@ -1,0 +1,33 @@
+--- origsrc/mariadb-10.0.24/cmake/libutils.cmake	2016-02-17 14:59:54.000000000 -0600
++++ src/mariadb-10.0.24/cmake/libutils.cmake	2016-03-03 13:10:50.999423400 -0600
+@@ -315,7 +315,7 @@ SET(VISIBILITY_HIDDEN_FLAG)
+ 
+ IF(CMAKE_C_COMPILER_ID MATCHES "SunPro")
+   SET(VISIBILITY_HIDDEN_FLAG "-xldscope=hidden")
+-ELSEIF(UNIX)
++ELSEIF(UNIX AND NOT CYGWIN)
+   CHECK_C_COMPILER_FLAG("-fvisibility=hidden" HAVE_VISIBILITY_HIDDEN)
+   IF(HAVE_VISIBILITY_HIDDEN)
+     SET(VISIBILITY_HIDDEN_FLAG "-fvisibility=hidden")
+--- origsrc/mariadb-10.0.24/storage/innobase/include/univ.i	2016-02-17 14:59:55.000000000 -0600
++++ src/mariadb-10.0.24/storage/innobase/include/univ.i	2016-03-03 14:10:57.601903700 -0600
+@@ -248,7 +248,7 @@ operations (very slow); also UNIV_DEBUG
+ that are only referenced from within InnoDB, not from MySQL. We disable the
+ GCC visibility directive on all Sun operating systems because there is no
+ easy way to get it to work. See http://bugs.mysql.com/bug.php?id=52263. */
+-#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) || defined(__INTEL_COMPILER)
++#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) && !defined(__CYGWIN__) || defined(__INTEL_COMPILER)
+ # define UNIV_INTERN __attribute__((visibility ("hidden")))
+ #else
+ # define UNIV_INTERN
+--- origsrc/mariadb-10.0.24/storage/xtradb/include/univ.i	2016-02-17 14:59:57.000000000 -0600
++++ src/mariadb-10.0.24/storage/xtradb/include/univ.i	2016-03-03 14:08:04.530926500 -0600
+@@ -260,7 +260,7 @@ operations (very slow); also UNIV_DEBUG
+ that are only referenced from within InnoDB, not from MySQL. We disable the
+ GCC visibility directive on all Sun operating systems because there is no
+ easy way to get it to work. See http://bugs.mysql.com/bug.php?id=52263. */
+-#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) || defined(__INTEL_COMPILER)
++#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) && !defined(__CYGWIN__) || defined(__INTEL_COMPILER)
+ # define UNIV_INTERN __attribute__((visibility ("hidden")))
+ #else
+ # define UNIV_INTERN

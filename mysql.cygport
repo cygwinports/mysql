@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=5.5.50
+VERSION=10.1.14
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MySQL database client"
@@ -9,69 +9,174 @@ DESCRIPTION="MySQL delivers a very fast, multi-threaded, multi-user, and robust
 SQL (Structured Query Language) database server.  The client components are
 stable, but the daemon should be considered experimental and not ready for
 mission-critical deployment."
-HOMEPAGE="http://dev.mysql.com/"
-SRC_URI="mirror://mysql/Downloads/MySQL-${PV_MAJ_MIN}/mysql-${VERSION}.tar.gz"
+HOMEPAGE="http://mariadb.org/"
+SRC_URI="https://downloads.mariadb.org/f/mariadb-${VERSION}/source/mariadb-${VERSION}.tar.gz?serve"
+SRC_DIR="mariadb-${VERSION}"
 PATCH_URI="
-	5.5.17-cygwin.patch
-	5.5.17-export-symbols.patch
+	10.0.24-cmake-install.patch
+	10.0.24-cygwin-compile.patch
+	10.0.24-cygwin-dll.patch
+	10.0.24-cygwin-visibility.patch
+	10.0.25-libmysql-symbols.patch
 "
 
-PKG_NAMES="mysql mysqld mysql-test libmysqlclient18 libmysqlclient-devel
-           libmysqld0 libmysqld-devel"
+PKG_NAMES="mysql mysql-server mysql-bench mysql-common mysql-test
+           libmysqlclient18 libmysqlclient-devel
+           libmysqld18 libmysqld-devel"
 mysql_SUMMARY="MySQL database client apps"
-mysql_CONTENTS="usr/bin/innochecksum.exe usr/bin/myisam_ftdump.exe usr/bin/mysql.exe
-	usr/bin/mysqlaccess* usr/bin/mysqladmin.exe usr/bin/mysqlanalyze
-	usr/bin/mysqlbug usr/bin/mysqlcheck.exe usr/bin/mysqldump*
-	usr/bin/mysqlimport.exe usr/bin/mysqloptimize usr/bin/mysqlrepair
-	usr/bin/mysqlshow.exe usr/bin/mysqlslap.exe usr/bin/mysqltest_embedded.exe
-	usr/bin/mysql_client* usr/bin/mysql_embedded.exe usr/bin/mysql_find_rows
-	usr/bin/mysql_fix_extensions usr/bin/mysql_waitpid.exe usr/bin/my_print_defaults.exe
-	usr/share/doc/ usr/share/man/man1/comp_err.*
-	usr/share/man/man1/innochecksum.* usr/share/man/man1/myisam_ftdump.*
-	usr/share/man/man1/mysql-stress-test.pl.* usr/share/man/man1/mysql-test-run.pl.*
-	usr/share/man/man1/mysql.1* usr/share/man/man1/mysqlaccess.*
-	usr/share/man/man1/mysqladmin.* usr/share/man/man1/mysqlbug.*
-	usr/share/man/man1/mysqlcheck.* usr/share/man/man1/mysqldump*
-	usr/share/man/man1/mysqlimport.* usr/share/man/man1/mysqlman.*
-	usr/share/man/man1/mysqlshow.* usr/share/man/man1/mysqlslap.*
-	usr/share/man/man1/mysqltest_embedded.* usr/share/man/man1/mysql_client*
-	usr/share/man/man1/mysql_find_rows.* usr/share/man/man1/mysql_fix_extensions.*
-	usr/share/man/man1/mysql_upgrade.* usr/share/man/man1/mysql_waitpid.*
-	usr/share/man/man1/my_print_defaults.*"
-mysqld_SUMMARY="MySQL database server"
-mysqld_REQUIRES="perl-DBD-mysql"
-mysqld_CONTENTS="usr/bin/msql2mysql usr/bin/myisamchk.exe usr/bin/myisamlog.exe
-	usr/bin/myisampack.exe usr/bin/mysql_convert_table_format
-	usr/bin/mysql_install_db usr/bin/mysql_plugin.exe usr/bin/mysql_secure_installation
-	usr/bin/mysql_setpermission usr/bin/mysql_tzinfo_to_sql.exe
-	usr/bin/mysql_upgrade.exe usr/bin/mysql_zap usr/bin/mysqlbinlog.exe
-	usr/bin/mysqld_* usr/bin/mysqlhotcopy usr/bin/mysqltest.exe usr/bin/perror.exe
-	usr/bin/replace.exe usr/bin/resolve* usr/lib/mysql/plugins/
-	usr/sbin/mysqld.exe usr/share/man/man1/msql2mysql.*
-	usr/share/man/man1/myisamchk.* usr/share/man/man1/myisamlog.*
-	usr/share/man/man1/myisampack.* usr/share/man/man1/mysql_convert_table_format.*
-	usr/share/man/man1/mysql_install_db.* usr/share/man/man1/mysql_plugin.*
-	usr/share/man/man1/mysql_secure_installation.* usr/share/man/man1/mysql_setpermission.*
-	usr/share/man/man1/mysql_tzinfo_to_sql.* usr/share/man/man1/mysql_zap.*
-	usr/share/man/man1/mysql.server.* usr/share/man/man1/mysqlbinlog.*
-	usr/share/man/man1/mysqld_* usr/share/man/man1/mysqlhotcopy.*
-	usr/share/man/man1/mysqltest.* usr/share/man/man1/perror.*
-	usr/share/man/man1/replace.* usr/share/man/man1/resolve*
-	usr/share/man/man8/mysqld.* usr/share/mysql/"
+mysql_REQUIRES="mysql-common"
+mysql_CONTENTS="
+	usr/bin/innochecksum.exe
+	usr/bin/myisam_ftdump.exe
+	usr/bin/mysql.exe
+	usr/bin/mysqlaccess*
+	usr/bin/mysqladmin.exe
+	usr/bin/mysqlanalyze
+	usr/bin/mysqlbug
+	usr/bin/mysqlcheck.exe
+	usr/bin/mysqldump*
+	usr/bin/mysqlimport.exe
+	usr/bin/mysqloptimize
+	usr/bin/mysqlrepair
+	usr/bin/mysqlshow.exe
+	usr/bin/mysqlslap.exe
+	usr/bin/mysqltest_embedded.exe
+	usr/bin/mysql_embedded.exe
+	usr/bin/mysql_find_rows
+	usr/bin/mysql_fix_extensions
+	usr/bin/mysql_waitpid.exe
+	usr/bin/my_print_defaults.exe
+	usr/share/man/man1/innochecksum.*
+	usr/share/man/man1/myisam_ftdump.*
+	usr/share/man/man1/mysql-stress-test.pl.*
+	usr/share/man/man1/mysql-test-run.pl.*
+	usr/share/man/man1/mysql.1*
+	usr/share/man/man1/mysqlaccess.*
+	usr/share/man/man1/mysqladmin.*
+	usr/share/man/man1/mysqlbug.*
+	usr/share/man/man1/mysqlcheck.*
+	usr/share/man/man1/mysqldump*
+	usr/share/man/man1/mysqlimport.*
+	usr/share/man/man1/mysqlshow.*
+	usr/share/man/man1/mysqlslap.*
+	usr/share/man/man1/mysqltest_embedded.*
+	usr/share/man/man1/mysql_find_rows.*
+	usr/share/man/man1/mysql_fix_extensions.*
+	usr/share/man/man1/mysql_upgrade.*
+	usr/share/man/man1/mysql_waitpid.*
+	usr/share/man/man1/my_print_defaults.*
+"
+mysql_server_SUMMARY="MySQL database server"
+mysql_server_REQUIRES="mysql-common perl-DBD-mysql"
+mysql_server_OBSOLETES="mysqld"
+mysql_server_CONTENTS="
+	usr/bin/aria_*
+	usr/bin/msql2mysql
+	usr/bin/myisamchk.exe
+	usr/bin/myisamlog.exe
+	usr/bin/myisampack.exe
+	usr/bin/mysql_convert_table_format
+	usr/bin/mysql_install_db
+	usr/bin/mysql_plugin.exe
+	usr/bin/mysql_secure_installation
+	usr/bin/mysql_setpermission
+	usr/bin/mysql_tzinfo_to_sql.exe
+	usr/bin/mysql_upgrade.exe
+	usr/bin/mysql_zap
+	usr/bin/mysqlbinlog.exe
+	usr/bin/mysqld_*
+	usr/bin/mysqlhotcopy
+	usr/bin/mysqltest.exe
+	usr/bin/mytop
+	usr/bin/perror.exe
+	usr/bin/replace.exe
+	usr/bin/resolve*
+	usr/bin/wsrep_sst_*
+	usr/lib/mysql/plugin/
+	usr/sbin/mysqld.exe
+	usr/share/man/man1/aria_*
+	usr/share/man/man1/msql2mysql.*
+	usr/share/man/man1/myisamchk.*
+	usr/share/man/man1/myisamlog.*
+	usr/share/man/man1/myisampack.*
+	usr/share/man/man1/mysql_convert_table_format.*
+	usr/share/man/man1/mysql_install_db.*
+	usr/share/man/man1/mysql_plugin.*
+	usr/share/man/man1/mysql_secure_installation.*
+	usr/share/man/man1/mysql_setpermission.*
+	usr/share/man/man1/mysql_tzinfo_to_sql.*
+	usr/share/man/man1/mysql_zap.*
+	usr/share/man/man1/mysql.server.*
+	usr/share/man/man1/mysqlbinlog.*
+	usr/share/man/man1/mysqld_*
+	usr/share/man/man1/mysqlhotcopy.*
+	usr/share/man/man1/mysqltest.*
+	usr/share/man/man1/perror.*
+	usr/share/man/man1/replace.*
+	usr/share/man/man1/resolve*
+	usr/share/man/man8/mysqld.*
+	usr/share/mysql/*.cnf
+	usr/share/mysql/*.sql
+	usr/share/mysql/mroonga/
+	usr/share/mysql/wsrep_notify
+"
+mysql_bench_SUMMARY="MySQL benchmarks"
+mysql_bench_CONTENTS="usr/share/sql-bench/"
 mysql_test_SUMMARY="MySQL server testsuite"
-mysql_test_CONTENTS='usr/share/mysql-test/'
+mysql_test_CONTENTS="
+	usr/bin/mysql_client_test*
+	usr/share/man/man1/mysql_client_test*
+	usr/share/mysql-test/
+"
+mysql_common_SUMMARY="MySQL common runtime files"
+mysql_common_CONTENTS="
+	--exclude=mroonga
+	etc/defaults/etc/my.cnf*
+	etc/postinstall/
+	etc/preremove/
+	usr/share/doc/
+	usr/share/mysql/errmsg-utf8.txt
+	usr/share/mysql/*/
+"
+libmysqlclient18_CATEGORY="Libs"
 libmysqlclient18_SUMMARY="MySQL database client library (runtime)"
-libmysqlclient18_CONTENTS="usr/bin/cygmysqlclient-18.dll"
+libmysqlclient18_REQUIRES="mysql-common"
+libmysqlclient18_CONTENTS="
+	usr/bin/cygmysqlclient-18.dll
+"
+libmysqlclient_devel_CATEGORY="Libs"
 libmysqlclient_devel_SUMMARY="MySQL database client library (development)"
 libmysqlclient_devel_REQUIRES="openssl-devel zlib-devel"
-libmysqlclient_devel_CONTENTS="usr/bin/mysql_config usr/include/
-                               usr/lib/libmysqlclient*.dll.a usr/share/aclocal/
-                               usr/share/man/man1/mysql_config.*"
-libmysqld0_SUMMARY="MySQL embedded database server library (runtime)"
-libmysqld0_CONTENTS="usr/bin/cygmysqld-0.dll"
+libmysqlclient_devel_CONTENTS="
+	usr/bin/mysql_config
+	usr/include/
+	usr/lib/libmysqlclient*.dll.a
+	usr/share/aclocal/
+	usr/share/man/man1/mysql_config.*
+	usr/share/pkgconfig/mariadb.pc
+"
+libmysqld18_CATEGORY="Libs"
+libmysqld18_SUMMARY="MySQL embedded database server library (runtime)"
+libmysqld18_REQUIRES="mysql-common"
+libmysqld18_CONTENTS="
+	usr/bin/cygmysqld-18.dll
+"
+libmysqld_devel_CATEGORY="Libs"
 libmysqld_devel_SUMMARY="MySQL embedded database server library (development)"
-libmysqld_devel_REQUIRES="libmysqlclient-devel openssl-devel libwrap-devel zlib-devel"
-libmysqld_devel_CONTENTS="usr/lib/libmysqld.dll.a"
+libmysqld_devel_REQUIRES="libmysqlclient-devel openssl-devel libpcre-devel libwrap-devel zlib-devel"
+libmysqld_devel_CONTENTS="
+	usr/lib/libmysqld.dll.a
+"
+PKG_IGNORE="
+	etc/init.d/mysql
+	etc/logrotate.d/mysql
+	usr/sbin/rcmysql
+	usr/share/mysql/binary-configure
+	usr/share/mysql/magic
+	usr/share/mysql/mysql-log-rotate
+	usr/share/mysql/mysql.server
+	usr/share/mysql/mysqld_multi.server
+"
 
 DEPS_PATH="/usr/sbin"
 
@@ -80,42 +185,44 @@ DISTCLEANFILES="cmake/os/Cygwin.cmake"
 DIFF_EXCLUDES="mysql-test sql-bench"
 
 CYGCMAKE_ARGS="
-	-DMYSQL_UNIX_ADDR=/var/run/mysql.sock
 	-DINSTALL_LAYOUT=RPM
+	-DINSTALL_SYSCONFDIR=/etc
+	-DINSTALL_SYSCONF2DIR=/etc/my.cnf.d
+	-DINSTALL_SCRIPTDIR=bin
 	-DINSTALL_LIBDIR=lib
-	-DINSTALL_PLUGINDIR=lib/${NAME}/plugins
+	-DINSTALL_SBINDIR=sbin
+	-DINSTALL_PLUGINDIR=lib/mysql/plugin
+	-DINSTALL_DOCDIR=share/doc/${NAME}
+	-DINSTALL_DOCREADMEDIR=share/doc/${NAME}
+	-DINSTALL_MANDIR=share/man
+	-DINSTALL_INFODIR=share/info
+	-DINSTALL_MYSQLSHAREDIR=share/mysql
+	-DINSTALL_MYSQLTESTDIR=share/mysql-test
+	-DINSTALL_SQLBENCHDIR=share
+	-DINSTALL_SUPPORTFILESDIR=share/mysql
 	-DMANUFACTURER=Cygwin
+	-DMYSQL_UNIX_ADDR=/var/run/mysql.sock
 	-DWITH_ARCHIVE_STORAGE_ENGINE=ON
 	-DWITH_BLACKHOLE_STORAGE_ENGINE=ON
 	-DWITH_FEDERATED_STORAGE_ENGINE=ON
 	-DWITH_INNOBASE_STORAGE_ENGINE=ON
 	-DWITH_PARTITION_STORAGE_ENGINE=ON
 	-DWITH_PERFSCHEMA_STORAGE_ENGINE=ON
+	-DWITHOUT_TOKUDB_STORAGE_ENGINE=ON
 	-DWITH_LIBWRAP=ON
 	-DWITH_EMBEDDED_SERVER=ON
 	-DWITH_LIBEDIT=OFF -DWITH_READLINE=OFF
-	-DWITH_SSL=yes
+	-DWITH_SSL=system
 	-DWITH_ZLIB=system
+	-DWITH_PCRE=system
+	-DWITH_JEMALLOC=no
+	-DTMPDIR=/var/tmp
 "
 
 src_compile() {
 	cd ${B}
 	cygcmake # CYGCMAKE_ARGS defined above
 	cygmake
-
-	# make shared libmysqld
-	mkdir -p ${B}/libmysqld/temp
-	rm -f ${B}/libmysqld/temp/*
-	cd ${B}/libmysqld/temp
-	ar x ../libmysqld.a
-	# these result in undefined references (bug 59104)
-	rm -f sql_binlog.cc.o rpl_utility.cc.o
-	echo EXPORTS > libmysqld.def
-	grep '^my' ${S}/libmysql/CMakeLists.txt | sort >> libmysqld.def
-	${CXX} -shared -Wl,--out-implib,libmysqld.dll.a \
-		-o cygmysqld-0.dll libmysqld.def *.o \
-		-lssl -lcrypto -lcrypt -lz -lwrap \
-		|| error "shared libmysqld creation failed"
 }
 
 src_install() {
@@ -123,13 +230,12 @@ src_install() {
 	cyginstall
 	find ${D}/usr/lib/ -name '*.a' ! -name '*.dll.a' -delete
 
-	dobin libmysqld/temp/cygmysqld-0.dll
-	dolib libmysqld/temp/libmysqld.dll.a
-
 	dosym libmysqlclient.dll.a /usr/lib/libmysqlclient_r.dll.a
 	dosym mysqlcheck.exe /usr/bin/mysqlanalyze
 	dosym mysqlcheck.exe /usr/bin/mysqloptimize
 	dosym mysqlcheck.exe /usr/bin/mysqlrepair
+
+	make_etc_defaults /etc/my.cnf /etc/my.cnf.d
 }
 
 DOCS="EXCEPTIONS-CLIENT INSTALL-SOURCE INSTALL-WIN-SOURCE"

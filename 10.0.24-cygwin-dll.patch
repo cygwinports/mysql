@@ -1,0 +1,23 @@
+--- origsrc/mariadb-10.0.24/include/my_global.h	2016-02-17 14:59:54.000000000 -0600
++++ src/mariadb-10.0.24/include/my_global.h	2016-03-03 14:09:02.593799500 -0600
+@@ -457,7 +457,7 @@ extern "C" int madvise(void *addr, size_
+ #endif
+ 
+ #ifndef SO_EXT
+-#ifdef _WIN32
++#if defined(_WIN32) || defined(__CYGWIN__)
+ #define SO_EXT ".dll"
+ #else
+ #define SO_EXT ".so"
+@@ -634,7 +634,11 @@ typedef SOCKET_SIZE_TYPE size_socket;
+ #define FN_LIBCHAR2	'/'
+ #define FN_DIRSEP       "/"     /* Valid directory separators */
+ #define FN_EXEEXT   ""
++#ifdef __CYGWIN__
++#define FN_SOEXT    ".dll"
++#else
+ #define FN_SOEXT    ".so"
++#endif
+ #define FN_ROOTDIR	"/"
+ #endif
+ 
