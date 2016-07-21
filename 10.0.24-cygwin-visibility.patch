@@ -11,13 +11,13 @@
      SET(VISIBILITY_HIDDEN_FLAG "-fvisibility=hidden")
 --- origsrc/mariadb-10.0.24/storage/innobase/include/univ.i	2016-02-17 14:59:55.000000000 -0600
 +++ src/mariadb-10.0.24/storage/innobase/include/univ.i	2016-03-03 14:10:57.601903700 -0600
-@@ -248,7 +248,7 @@ operations (very slow); also UNIV_DEBUG
- that are only referenced from within InnoDB, not from MySQL. We disable the
+@@ -249,7 +249,7 @@ operations (very slow); also UNIV_DEBUG
  GCC visibility directive on all Sun operating systems because there is no
  easy way to get it to work. See http://bugs.mysql.com/bug.php?id=52263. */
+ #define MY_ATTRIBUTE __attribute__
 -#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) || defined(__INTEL_COMPILER)
 +#if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(sun) && !defined(__CYGWIN__) || defined(__INTEL_COMPILER)
- # define UNIV_INTERN __attribute__((visibility ("hidden")))
+ # define UNIV_INTERN MY_ATTRIBUTE((visibility ("hidden")))
  #else
  # define UNIV_INTERN
 --- origsrc/mariadb-10.0.24/storage/xtradb/include/univ.i	2016-02-17 14:59:57.000000000 -0600
