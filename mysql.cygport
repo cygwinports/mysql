@@ -1,14 +1,15 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=10.1.17
+VERSION=10.1.18
 RELEASE=1
 CATEGORY="Database"
-SUMMARY="MySQL database client"
-DESCRIPTION="MySQL delivers a very fast, multi-threaded, multi-user, and robust
-SQL (Structured Query Language) database server.  The client components are
-stable, but the daemon should be considered experimental and not ready for
-mission-critical deployment."
+SUMMARY="MariaDB/MySQL database client"
+DESCRIPTION="MariaDB turns data into structured information in a wide array of
+applications. It is an enhanced, drop-in replacement for MySQL. MariaDB is used
+because it is fast, scalable and robust, with a rich ecosystem of storage
+engines, plugins and many other tools make it very versatile for a wide variety
+of use cases."
 HOMEPAGE="http://mariadb.org/"
 SRC_URI="https://downloads.mariadb.org/f/mariadb-${VERSION}/source/mariadb-${VERSION}.tar.gz?serve"
 SRC_DIR="mariadb-${VERSION}"
@@ -23,7 +24,7 @@ PATCH_URI="
 PKG_NAMES="mysql mysql-server mysql-bench mysql-common mysql-test
            libmysqlclient18 libmysqlclient-devel
            libmysqld18 libmysqld-devel"
-mysql_SUMMARY="MySQL database client apps"
+mysql_SUMMARY="MariaDB/MySQL database client apps"
 mysql_REQUIRES="mysql-common"
 mysql_CONTENTS="
 	usr/bin/innochecksum.exe
@@ -66,7 +67,7 @@ mysql_CONTENTS="
 	usr/share/man/man1/mysql_waitpid.*
 	usr/share/man/man1/my_print_defaults.*
 "
-mysql_server_SUMMARY="MySQL database server"
+mysql_server_SUMMARY="MariaDB/MySQL database server"
 mysql_server_REQUIRES="mysql-common perl-DBD-mysql"
 mysql_server_OBSOLETES="mysqld"
 mysql_server_CONTENTS="
@@ -120,15 +121,15 @@ mysql_server_CONTENTS="
 	usr/share/mysql/mroonga/
 	usr/share/mysql/wsrep_notify
 "
-mysql_bench_SUMMARY="MySQL benchmarks"
+mysql_bench_SUMMARY="MariaDB/MySQL benchmarks"
 mysql_bench_CONTENTS="usr/share/sql-bench/"
-mysql_test_SUMMARY="MySQL server testsuite"
+mysql_test_SUMMARY="MariaDB/MySQL server testsuite"
 mysql_test_CONTENTS="
 	usr/bin/mysql_client_test*
 	usr/share/man/man1/mysql_client_test*
 	usr/share/mysql-test/
 "
-mysql_common_SUMMARY="MySQL common runtime files"
+mysql_common_SUMMARY="MariaDB/MySQL common runtime files"
 mysql_common_CONTENTS="
 	--exclude=mroonga
 	etc/defaults/etc/my.cnf*
@@ -139,13 +140,13 @@ mysql_common_CONTENTS="
 	usr/share/mysql/*/
 "
 libmysqlclient18_CATEGORY="Libs"
-libmysqlclient18_SUMMARY="MySQL database client library (runtime)"
+libmysqlclient18_SUMMARY="MariaDB/MySQL database client library (runtime)"
 libmysqlclient18_REQUIRES="mysql-common"
 libmysqlclient18_CONTENTS="
 	usr/bin/cygmysqlclient-18.dll
 "
 libmysqlclient_devel_CATEGORY="Libs"
-libmysqlclient_devel_SUMMARY="MySQL database client library (development)"
+libmysqlclient_devel_SUMMARY="MariaDB/MySQL database client library (development)"
 libmysqlclient_devel_REQUIRES="openssl-devel zlib-devel"
 libmysqlclient_devel_CONTENTS="
 	usr/bin/mysql_config
@@ -156,13 +157,13 @@ libmysqlclient_devel_CONTENTS="
 	usr/share/pkgconfig/mariadb.pc
 "
 libmysqld18_CATEGORY="Libs"
-libmysqld18_SUMMARY="MySQL embedded database server library (runtime)"
+libmysqld18_SUMMARY="MariaDB/MySQL embedded database server library (runtime)"
 libmysqld18_REQUIRES="mysql-common"
 libmysqld18_CONTENTS="
 	usr/bin/cygmysqld-18.dll
 "
 libmysqld_devel_CATEGORY="Libs"
-libmysqld_devel_SUMMARY="MySQL embedded database server library (development)"
+libmysqld_devel_SUMMARY="MariaDB/MySQL embedded database server library (development)"
 libmysqld_devel_REQUIRES="libmysqlclient-devel openssl-devel libpcre-devel libwrap-devel zlib-devel"
 libmysqld_devel_CONTENTS="
 	usr/lib/libmysqld.dll.a
