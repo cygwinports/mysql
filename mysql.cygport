@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=10.1.18
+VERSION=10.1.19
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MariaDB/MySQL database client"
