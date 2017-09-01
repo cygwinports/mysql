@@ -48,6 +48,17 @@
  #endif  // !__WIN__
  
  /***********************************************************************/
+--- origsrc/mariadb-10.1.26/storage/connect/ioapi.c	2017-08-09 08:20:42.000000000 -0500
++++ src/mariadb-10.1.26/storage/connect/ioapi.c	2017-09-01 16:29:41.570370200 -0500
+@@ -14,7 +14,7 @@
+         #define _CRT_SECURE_NO_WARNINGS
+ #endif
+ 
+-#if defined(__APPLE__) || defined(IOAPI_NO_64)
++#if defined(__APPLE__) || defined(__CYGWIN__) || defined(IOAPI_NO_64)
+ // In darwin and perhaps other BSD variants off_t is a 64 bit value, hence no need for specific 64 bit functions
+ #define FOPEN_FUNC(filename, mode) fopen(filename, mode)
+ #define FTELLO_FUNC(stream) ftello(stream)
 --- origsrc/mariadb-10.0.24/storage/connect/xindex.cpp	2016-02-17 14:59:55.000000000 -0600
 +++ src/mariadb-10.0.24/storage/connect/xindex.cpp	2016-03-03 13:10:51.663507700 -0600
 @@ -25,6 +25,13 @@
