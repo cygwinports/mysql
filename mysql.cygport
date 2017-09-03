@@ -72,6 +72,8 @@ mysql_server_REQUIRES="mysql-common perl-DBD-mysql"
 mysql_server_OBSOLETES="mysqld"
 mysql_server_CONTENTS="
 	usr/bin/aria_*
+	usr/bin/mariabackup.exe
+	usr/bin/mbstream.exe
 	usr/bin/msql2mysql
 	usr/bin/myisamchk.exe
 	usr/bin/myisamlog.exe
@@ -115,6 +117,7 @@ mysql_server_CONTENTS="
 	usr/share/man/man1/perror.*
 	usr/share/man/man1/replace.*
 	usr/share/man/man1/resolve*
+	usr/share/man/man1/wsrep_sst_*
 	usr/share/man/man8/mysqld.*
 	usr/share/mysql/*.cnf
 	usr/share/mysql/*.sql
