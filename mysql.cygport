@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=10.1.26
+VERSION=10.1.30
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MariaDB/MySQL database client"
@@ -19,6 +19,7 @@ PATCH_URI="
 	10.0.24-cygwin-dll.patch
 	10.0.24-cygwin-visibility.patch
 	10.0.25-libmysql-symbols.patch
+	10.1.30-mroonga-lz4.patch
 "
 
 PKG_NAMES="mysql mysql-server mysql-bench mysql-common mysql-test
@@ -49,8 +50,6 @@ mysql_CONTENTS="
 	usr/bin/my_print_defaults.exe
 	usr/share/man/man1/innochecksum.*
 	usr/share/man/man1/myisam_ftdump.*
-	usr/share/man/man1/mysql-stress-test.pl.*
-	usr/share/man/man1/mysql-test-run.pl.*
 	usr/share/man/man1/mysql.1*
 	usr/share/man/man1/mysqlaccess.*
 	usr/share/man/man1/mysqladmin.*
@@ -129,7 +128,10 @@ mysql_bench_CONTENTS="usr/share/sql-bench/"
 mysql_test_SUMMARY="MariaDB/MySQL server testsuite"
 mysql_test_CONTENTS="
 	usr/bin/mysql_client_test*
+	usr/share/man/man1/my_safe_process.1*
 	usr/share/man/man1/mysql_client_test*
+	usr/share/man/man1/mysql-stress-test.pl.*
+	usr/share/man/man1/mysql-test-run.pl.*
 	usr/share/mysql-test/
 "
 mysql_common_SUMMARY="MariaDB/MySQL common runtime files"
@@ -175,6 +177,13 @@ PKG_IGNORE="
 	etc/init.d/mysql
 	etc/logrotate.d/mysql
 	usr/sbin/rcmysql
+	usr/share/groonga/
+	usr/share/groonga-normalizer-mysql/
+	usr/share/man/man1/galera_new_cluster.1*
+	usr/share/man/man1/galera_recovery.1*
+	usr/share/man/man1/mariadb-service-convert.1*
+	usr/share/man/man1/tokuftdump.1*
+	usr/share/man/man1/tokuft_logdump.1*
 	usr/share/mysql/binary-configure
 	usr/share/mysql/magic
 	usr/share/mysql/mysql-log-rotate
@@ -225,13 +234,14 @@ CYGCMAKE_ARGS="
 
 src_compile() {
 	cd ${B}
+	CYGCMAKE_GENERATOR=Ninja
 	cygcmake # CYGCMAKE_ARGS defined above
-	cygmake
+	cygninja
 }
 
 src_install() {
 	cd ${B}
-	cyginstall
+	ninja_install
 	find ${D}/usr/lib/ -name '*.a' ! -name '*.dll.a' -delete
 
 	dosym libmysqlclient.dll.a /usr/lib/libmysqlclient_r.dll.a
