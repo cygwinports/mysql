@@ -1,7 +1,7 @@
 inherit cmake
 
 NAME="mysql"
-VERSION=10.1.30
+VERSION=10.3.14
 RELEASE=1
 CATEGORY="Database"
 SUMMARY="MariaDB/MySQL database client"
@@ -15,105 +15,85 @@ SRC_URI="https://downloads.mariadb.org/f/mariadb-${VERSION}/source/mariadb-${VER
 SRC_DIR="mariadb-${VERSION}"
 PATCH_URI="
 	10.0.24-cmake-install.patch
-	10.0.24-cygwin-compile.patch
+	10.3.14-cygwin-compile.patch
 	10.0.24-cygwin-dll.patch
 	10.0.24-cygwin-visibility.patch
-	10.0.25-libmysql-symbols.patch
-	10.1.30-mroonga-lz4.patch
 "
 
-PKG_NAMES="mysql mysql-server mysql-bench mysql-common mysql-test
-           libmysqlclient18 libmysqlclient-devel
-           libmysqld18 libmysqld-devel"
+PKG_NAMES="mysql mysql-server mysql-server-utils mysql-bench mysql-test
+           mysql-common mysql-errmsg mysql-devel
+           libmariadbd19 libmariadbd-devel"
 mysql_SUMMARY="MariaDB/MySQL database client apps"
 mysql_REQUIRES="mysql-common"
 mysql_CONTENTS="
-	usr/bin/innochecksum.exe
-	usr/bin/myisam_ftdump.exe
+	usr/bin/msql2mysql
 	usr/bin/mysql.exe
-	usr/bin/mysqlaccess*
+	usr/bin/mysqlaccess
 	usr/bin/mysqladmin.exe
 	usr/bin/mysqlanalyze
-	usr/bin/mysqlbug
+	usr/bin/mysqlbinlog.exe
 	usr/bin/mysqlcheck.exe
-	usr/bin/mysqldump*
+	usr/bin/mysqldump.exe
 	usr/bin/mysqlimport.exe
 	usr/bin/mysqloptimize
 	usr/bin/mysqlrepair
 	usr/bin/mysqlshow.exe
 	usr/bin/mysqlslap.exe
-	usr/bin/mysqltest_embedded.exe
-	usr/bin/mysql_embedded.exe
 	usr/bin/mysql_find_rows
-	usr/bin/mysql_fix_extensions
+	usr/bin/mysql_plugin.exe
 	usr/bin/mysql_waitpid.exe
-	usr/bin/my_print_defaults.exe
-	usr/share/man/man1/innochecksum.*
-	usr/share/man/man1/myisam_ftdump.*
+	usr/share/man/man1/msql2mysql.*
 	usr/share/man/man1/mysql.1*
 	usr/share/man/man1/mysqlaccess.*
 	usr/share/man/man1/mysqladmin.*
-	usr/share/man/man1/mysqlbug.*
+	usr/share/man/man1/mysqlbinlog.*
 	usr/share/man/man1/mysqlcheck.*
-	usr/share/man/man1/mysqldump*
+	usr/share/man/man1/mysqldump.*
 	usr/share/man/man1/mysqlimport.*
 	usr/share/man/man1/mysqlshow.*
 	usr/share/man/man1/mysqlslap.*
-	usr/share/man/man1/mysqltest_embedded.*
 	usr/share/man/man1/mysql_find_rows.*
-	usr/share/man/man1/mysql_fix_extensions.*
-	usr/share/man/man1/mysql_upgrade.*
+	usr/share/man/man1/mysql_plugin.*
 	usr/share/man/man1/mysql_waitpid.*
-	usr/share/man/man1/my_print_defaults.*
 "
 mysql_server_SUMMARY="MariaDB/MySQL database server"
-mysql_server_REQUIRES="mysql-common perl-DBD-mysql"
+mysql_server_REQUIRES="mysql-common mysql-errmsg"
 mysql_server_OBSOLETES="mysqld"
 mysql_server_CONTENTS="
 	usr/bin/aria_*
-	usr/bin/mariabackup.exe
-	usr/bin/mbstream.exe
-	usr/bin/msql2mysql
+	usr/bin/innochecksum.exe
+	usr/bin/myisam_ftdump.exe
 	usr/bin/myisamchk.exe
 	usr/bin/myisamlog.exe
 	usr/bin/myisampack.exe
-	usr/bin/mysql_convert_table_format
+	usr/bin/my_print_defaults.exe
+	usr/bin/myrocks_hotbackup
 	usr/bin/mysql_install_db
-	usr/bin/mysql_plugin.exe
+	usr/bin/mysql_ldb.exe
 	usr/bin/mysql_secure_installation
-	usr/bin/mysql_setpermission
 	usr/bin/mysql_tzinfo_to_sql.exe
-	usr/bin/mysql_upgrade.exe
-	usr/bin/mysql_zap
-	usr/bin/mysqlbinlog.exe
-	usr/bin/mysqld_*
-	usr/bin/mysqlhotcopy
-	usr/bin/mysqltest.exe
-	usr/bin/mytop
-	usr/bin/perror.exe
+	usr/bin/mysqld_safe*
 	usr/bin/replace.exe
 	usr/bin/resolve*
+	usr/bin/sst_dump.exe
 	usr/bin/wsrep_sst_*
-	usr/lib/mysql/plugin/
+	usr/lib/mariadb/plugin/
 	usr/sbin/mysqld.exe
 	usr/share/man/man1/aria_*
-	usr/share/man/man1/msql2mysql.*
+	usr/share/man/man1/innochecksum.*
+	usr/share/man/man1/myisam_ftdump.*
 	usr/share/man/man1/myisamchk.*
 	usr/share/man/man1/myisamlog.*
 	usr/share/man/man1/myisampack.*
+	usr/share/man/man1/my_print_defaults.*
 	usr/share/man/man1/mysql_convert_table_format.*
 	usr/share/man/man1/mysql_install_db.*
-	usr/share/man/man1/mysql_plugin.*
+	usr/share/man/man1/mysql_ldb.*
 	usr/share/man/man1/mysql_secure_installation.*
-	usr/share/man/man1/mysql_setpermission.*
 	usr/share/man/man1/mysql_tzinfo_to_sql.*
-	usr/share/man/man1/mysql_zap.*
 	usr/share/man/man1/mysql.server.*
-	usr/share/man/man1/mysqlbinlog.*
-	usr/share/man/man1/mysqld_*
+	usr/share/man/man1/mysqld_safe*
 	usr/share/man/man1/mysqlhotcopy.*
-	usr/share/man/man1/mysqltest.*
-	usr/share/man/man1/perror.*
 	usr/share/man/man1/replace.*
 	usr/share/man/man1/resolve*
 	usr/share/man/man1/wsrep_sst_*
@@ -123,54 +103,84 @@ mysql_server_CONTENTS="
 	usr/share/mysql/mroonga/
 	usr/share/mysql/wsrep_notify
 "
+mysql_server_utils_SUMMARY="MariaDB/MySQL database server utilities"
+mysql_server_utils_REQUIRES="perl-DBD-mysql"
+mysql_server_utils_CONTENTS="
+	usr/bin/mariabackup.exe
+	usr/bin/mbstream.exe
+	usr/bin/mysql_convert_table_format
+	usr/bin/mysql_fix_extensions
+	usr/bin/mysql_setpermission
+	usr/bin/mysql_upgrade.exe
+	usr/bin/mysqld_multi
+	usr/bin/mysqldumpslow
+	usr/bin/mysqlhotcopy
+	usr/bin/mytop
+	usr/bin/perror.exe
+	usr/share/man/man1/mariabackup.1*
+	usr/share/man/man1/mbstream.1*
+	usr/share/man/man1/mysql_fix_extensions.*
+	usr/share/man/man1/mysql_setpermission.*
+	usr/share/man/man1/mysql_upgrade.*
+	usr/share/man/man1/mysqld_multi.*
+	usr/share/man/man1/mysqldumpslow.*
+	usr/share/man/man1/perror.*
+"
 mysql_bench_SUMMARY="MariaDB/MySQL benchmarks"
 mysql_bench_CONTENTS="usr/share/sql-bench/"
 mysql_test_SUMMARY="MariaDB/MySQL server testsuite"
 mysql_test_CONTENTS="
+	usr/bin/my_safe_process.exe
 	usr/bin/mysql_client_test*
+	usr/bin/mysqltest.exe
+	usr/bin/mysqltest_embedded.exe
+	usr/bin/test-connect-t.exe
 	usr/share/man/man1/my_safe_process.1*
 	usr/share/man/man1/mysql_client_test*
 	usr/share/man/man1/mysql-stress-test.pl.*
 	usr/share/man/man1/mysql-test-run.pl.*
+	usr/share/man/man1/mysqltest.*
+	usr/share/man/man1/mysqltest_embedded.*
 	usr/share/mysql-test/
 "
 mysql_common_SUMMARY="MariaDB/MySQL common runtime files"
+mysql_common_REQUIRES="mariadb-common"
 mysql_common_CONTENTS="
-	--exclude=mroonga
-	etc/defaults/etc/my.cnf*
-	etc/postinstall/
-	etc/preremove/
-	usr/share/doc/
+	etc/defaults/etc/my.cnf.d/*.cnf
+	etc/my.cnf.d/enable_encryption.preset
+	etc/p*/${NAME}.sh
+	usr/share/doc/${NAME}/
+	usr/share/mysql/charsets/
+"
+mysql_errmsg_SUMMARY="MariaDB/MySQL server runtime files"
+mysql_errmsg_CONTENTS="
 	usr/share/mysql/errmsg-utf8.txt
-	usr/share/mysql/*/
+	usr/share/mysql/*/errmsg.sys
 "
-libmysqlclient18_CATEGORY="Libs"
-libmysqlclient18_SUMMARY="MariaDB/MySQL database client library (runtime)"
-libmysqlclient18_REQUIRES="mysql-common"
-libmysqlclient18_CONTENTS="
-	usr/bin/cygmysqlclient-18.dll
-"
-libmysqlclient_devel_CATEGORY="Libs"
-libmysqlclient_devel_SUMMARY="MariaDB/MySQL database client library (development)"
-libmysqlclient_devel_REQUIRES="openssl-devel zlib-devel"
-libmysqlclient_devel_CONTENTS="
-	usr/bin/mysql_config
-	usr/include/
-	usr/lib/libmysqlclient*.dll.a
-	usr/share/aclocal/
-	usr/share/man/man1/mysql_config.*
+mysql_devel_SUMMARY="MariaDB/MySQL server plugin development files"
+mysql_devel_REQUIRES="libmariadb-devel"
+mysql_devel_CONTENTS="
+	usr/include/mysql/my_config.h
+	usr/include/mysql/my_global.h
+	usr/include/mysql/my_sys.h
+	usr/include/mysql/mysql_com.h
+	usr/include/mysql/server/
+	usr/share/aclocal/mysql.m4
+	usr/share/man/man1/*_config.1*
 	usr/share/pkgconfig/mariadb.pc
 "
-libmysqld18_CATEGORY="Libs"
-libmysqld18_SUMMARY="MariaDB/MySQL embedded database server library (runtime)"
-libmysqld18_REQUIRES="mysql-common"
-libmysqld18_CONTENTS="
-	usr/bin/cygmysqld-18.dll
+libmariadbd19_CATEGORY="Libs"
+libmariadbd19_SUMMARY="MariaDB/MySQL embedded database server library (runtime)"
+libmariadbd19_REQUIRES="mysql-common mysql-errmsg"
+libmariadbd19_CONTENTS="
+	usr/bin/cygmariadbd-19.dll
 "
-libmysqld_devel_CATEGORY="Libs"
-libmysqld_devel_SUMMARY="MariaDB/MySQL embedded database server library (development)"
-libmysqld_devel_REQUIRES="libmysqlclient-devel openssl-devel libpcre-devel libwrap-devel zlib-devel"
-libmysqld_devel_CONTENTS="
+libmariadbd_devel_CATEGORY="Libs"
+libmariadbd_devel_SUMMARY="MariaDB/MySQL embedded database server library (development)"
+libmariadbd_devel_OBSOLETES="libmysqld-devel"
+libmariadbd_devel_REQUIRES="libmariadb-devel libssl-devel libpcre-devel libwrap-devel zlib-devel"
+libmariadbd_devel_CONTENTS="
+	usr/lib/libmariadbd.dll.a
 	usr/lib/libmysqld.dll.a
 "
 PKG_IGNORE="
@@ -182,13 +192,14 @@ PKG_IGNORE="
 	usr/share/man/man1/galera_new_cluster.1*
 	usr/share/man/man1/galera_recovery.1*
 	usr/share/man/man1/mariadb-service-convert.1*
-	usr/share/man/man1/tokuftdump.1*
-	usr/share/man/man1/tokuft_logdump.1*
+	usr/share/man/man1/tokuft*
 	usr/share/mysql/binary-configure
 	usr/share/mysql/magic
 	usr/share/mysql/mysql-log-rotate
 	usr/share/mysql/mysql.server
 	usr/share/mysql/mysqld_multi.server
+	usr/share/mysql/policy/apparmor/*
+	usr/share/mysql/policy/selinux/*
 "
 
 DEPS_PATH="/usr/sbin"
@@ -202,9 +213,10 @@ CYGCMAKE_ARGS="
 	-DINSTALL_SYSCONFDIR=/etc
 	-DINSTALL_SYSCONF2DIR=/etc/my.cnf.d
 	-DINSTALL_SCRIPTDIR=bin
+	-DINSTALL_INCLUDEDIR=include/mysql
 	-DINSTALL_LIBDIR=lib
 	-DINSTALL_SBINDIR=sbin
-	-DINSTALL_PLUGINDIR=lib/mysql/plugin
+	-DINSTALL_PLUGINDIR=lib/mariadb/plugin
 	-DINSTALL_DOCDIR=share/doc/${NAME}
 	-DINSTALL_DOCREADMEDIR=share/doc/${NAME}
 	-DINSTALL_MANDIR=share/man
@@ -215,16 +227,14 @@ CYGCMAKE_ARGS="
 	-DINSTALL_SUPPORTFILESDIR=share/mysql
 	-DMANUFACTURER=Cygwin
 	-DMYSQL_UNIX_ADDR=/var/run/mysql.sock
-	-DWITH_ARCHIVE_STORAGE_ENGINE=ON
-	-DWITH_BLACKHOLE_STORAGE_ENGINE=ON
-	-DWITH_FEDERATED_STORAGE_ENGINE=ON
-	-DWITH_INNOBASE_STORAGE_ENGINE=ON
-	-DWITH_PARTITION_STORAGE_ENGINE=ON
-	-DWITH_PERFSCHEMA_STORAGE_ENGINE=ON
-	-DWITHOUT_TOKUDB_STORAGE_ENGINE=ON
+	-DPLUGIN_TOKUDB=NO
+	-DCONNECT_WITH_MONGO=OFF
+	-DCONNECT_WITH_JDBC=OFF
 	-DWITH_LIBWRAP=ON
 	-DWITH_EMBEDDED_SERVER=ON
-	-DWITH_LIBEDIT=OFF -DWITH_READLINE=OFF
+	-DWITH_MARIABACKUP=ON
+	-DWITH_INNODB_LZ4=ON
+	-DLZ4_LIBS=/usr/lib/liblz4.dll.a
 	-DWITH_SSL=system
 	-DWITH_ZLIB=system
 	-DWITH_PCRE=system
@@ -244,12 +254,36 @@ src_install() {
 	ninja_install
 	find ${D}/usr/lib/ -name '*.a' ! -name '*.dll.a' -delete
 
-	dosym libmysqlclient.dll.a /usr/lib/libmysqlclient_r.dll.a
+	rm -f ${D}/usr/lib/libmysqld.so
+	dosym libmariadbd.dll.a /usr/lib/libmysqld.dll.a
+
+	# default behaviour changes according to argv[0]
 	dosym mysqlcheck.exe /usr/bin/mysqlanalyze
 	dosym mysqlcheck.exe /usr/bin/mysqloptimize
 	dosym mysqlcheck.exe /usr/bin/mysqlrepair
 
-	make_etc_defaults /etc/my.cnf /etc/my.cnf.d
+	# remove conflicts with mariadb-connector-c
+	rm -f ${D}/etc/my.cnf
+	rm -f ${D}/etc/my.cnf.d/client.cnf
+	rm -f ${D}/usr/bin/{mariadb,mysql}_config*
+	rm -f ${D}/usr/include/mysql/errmsg.h
+	rm -f ${D}/usr/include/mysql/{ma,mariadb}_*.h
+	rm -f ${D}/usr/include/mysql/mysql{,_version,d_error}.h
+	rm -f ${D}/usr/include/mysql/{mariadb,mysql}/*.h
+	rm -f ${D}/usr/lib/libmariadb-*.dll
+	rm -f ${D}/usr/lib/libmariadb.dll.a
+	rm -f ${D}/usr/lib/liblibmariadb.dll.a
+	rm -f ${D}/usr/lib/libmysqlclient*
+	rm -f ${D}/usr/lib/mariadb/plugin/{auth_gssapi_client,caching_sha2_password,dialog,mysql_clear_password,sha256_password}.dll
+	rm -f ${D}/usr/lib*/pkgconfig/libmariadb.pc
+	# unwanted or unnecessary binaries
+	rm -f ${D}/usr/bin/mysql_embedded.exe
+	rm -f ${D}/usr/share/man/man1/mysql_embedded.*
+
+	make_etc_defaults /etc/my.cnf.d/{mysql-clients,server}.cnf
+
+	mv ${D}/usr/share/mysql-test/lib/My/SafeProcess/my_safe_process.exe ${D}/usr/bin/
+	dosym /usr/bin/my_safe_process /usr/share/mysql-test/lib/My/SafeProcess/my_safe_process
 }
 
 DOCS="EXCEPTIONS-CLIENT INSTALL-SOURCE INSTALL-WIN-SOURCE"

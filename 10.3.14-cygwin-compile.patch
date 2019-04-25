@@ -1,0 +1,199 @@
+--- origsrc/mariadb-10.3.14/include/my_global.h	2019-04-25 13:15:08.881835900 -0400
++++ src/mariadb-10.3.14/include/my_global.h	2019-04-24 10:35:32.052734300 -0400
+@@ -46,8 +46,6 @@
+ #undef __WIN__
+ #undef __WIN32__
+ #define HAVE_ERRNO_AS_DEFINE
+-#define _POSIX_MONOTONIC_CLOCK
+-#define _POSIX_THREAD_CPUTIME
+ #endif /* __CYGWIN__ */
+ 
+ #if defined(__OpenBSD__) && (OpenBSD >= 200411)
+@@ -190,7 +188,7 @@
+ #endif
+ 
+ /* Fix problem with S_ISLNK() on Linux */
+-#if defined(TARGET_OS_LINUX) || defined(__GLIBC__)
++#if defined(TARGET_OS_LINUX) || defined(__GLIBC__) || defined(__CYGWIN__)
+ #undef  _GNU_SOURCE
+ #define _GNU_SOURCE 1
+ #endif
+--- origsrc/mariadb-10.3.14/libmariadb/libmariadb/CMakeLists.txt	2019-04-01 10:03:57.000000000 -0400
++++ src/mariadb-10.3.14/libmariadb/libmariadb/CMakeLists.txt	2019-04-24 10:41:27.045898400 -0400
+@@ -302,7 +302,6 @@ ELSE()
+   IF(ICONV_INCLUDE_DIR)
+      INCLUDE_DIRECTORIES(BEFORE ${ICONV_INCLUDE_DIR}) 
+   ENDIF()
+-  ADD_DEFINITIONS(-DLIBICONV_PLUG)
+ ENDIF()
+ 
+ IF(ZLIB_FOUND AND WITH_EXTERNAL_ZLIB)
+--- origsrc/mariadb-10.3.14/sql/wsrep_mysqld_c.h	2019-04-01 10:04:01.000000000 -0400
++++ src/mariadb-10.3.14/sql/wsrep_mysqld_c.h	2019-04-24 10:41:12.215820300 -0400
+@@ -25,6 +25,6 @@ enum enum_wsrep_certification_rules {
+ the same ha_innodb.so can be used with the embedded server
+ (which does not link to the definition of this variable)
+ and with the regular server built WITH_WSREP. */
+-extern ulong wsrep_certification_rules __attribute__((weak));
++extern ulong wsrep_certification_rules; // __attribute__((weak));
+ 
+ #endif /* WSREP_MYSQLD_C_H */
+--- origsrc/mariadb-10.3.14/storage/connect/filamfix.cpp	2019-04-01 10:04:01.000000000 -0400
++++ src/mariadb-10.3.14/storage/connect/filamfix.cpp	2019-04-24 10:35:31.865234300 -0400
+@@ -34,6 +34,12 @@
+ #endif  // !UNIX
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#ifdef __CYGWIN__
++#define ftruncate64 ftruncate
++#define lseek64 lseek
++#define open64 open
++#define O_LARGEFILE 0
++#endif
+ #endif  // !__WIN__
+ 
+ /***********************************************************************/
+--- origsrc/mariadb-10.3.14/storage/connect/filamvct.cpp	2019-04-01 10:04:01.000000000 -0400
++++ src/mariadb-10.3.14/storage/connect/filamvct.cpp	2019-04-24 10:35:31.865234300 -0400
+@@ -40,6 +40,12 @@
+ #include <io.h>
+ #endif  // !UNIX
+ #include <fcntl.h>
++#ifdef __CYGWIN__
++#define ftruncate64 ftruncate
++#define lseek64 lseek
++#define open64 open
++#define O_LARGEFILE 0
++#endif
+ #endif  // !__WIN__
+ 
+ /***********************************************************************/
+--- origsrc/mariadb-10.3.14/storage/connect/ioapi.c	2019-04-01 10:04:01.000000000 -0400
++++ src/mariadb-10.3.14/storage/connect/ioapi.c	2019-04-24 10:35:31.865234300 -0400
+@@ -14,7 +14,7 @@
+         #define _CRT_SECURE_NO_WARNINGS
+ #endif
+ 
+-#if defined(__APPLE__) || defined(IOAPI_NO_64)
++#if defined(__APPLE__) || defined(__CYGWIN__) || defined(IOAPI_NO_64)
+ // In darwin and perhaps other BSD variants off_t is a 64 bit value, hence no need for specific 64 bit functions
+ #define FOPEN_FUNC(filename, mode) fopen(filename, mode)
+ #define FTELLO_FUNC(stream) ftello(stream)
+--- origsrc/mariadb-10.3.14/storage/connect/xindex.cpp	2019-04-01 10:04:01.000000000 -0400
++++ src/mariadb-10.3.14/storage/connect/xindex.cpp	2019-04-24 10:35:31.865234300 -0400
+@@ -25,6 +25,13 @@
+ #include <io.h>
+ #endif  // !UNIX
+ #include <fcntl.h>
++#ifdef __CYGWIN__
++#define ftruncate64 ftruncate
++#define lseek64 lseek
++#define open64 open
++#define off64_t off_t
++#define O_LARGEFILE 0
++#endif
+ #endif  // !__WIN__
+ 
+ /***********************************************************************/
+--- origsrc/mariadb-10.3.14/storage/rocksdb/ha_rocksdb.cc	2019-04-01 10:04:02.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/ha_rocksdb.cc	2019-04-24 17:55:10.055664000 -0400
+@@ -235,7 +235,7 @@ Rdb_cf_manager cf_manager;
+ Rdb_ddl_manager ddl_manager;
+ Rdb_binlog_manager binlog_manager;
+ 
+-#if !defined(_WIN32) && !defined(__APPLE__)
++#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__CYGWIN__)
+ Rdb_io_watchdog *io_watchdog = nullptr;
+ #endif
+ /**
+@@ -712,7 +712,7 @@ static void rocksdb_set_io_write_timeout
+     void *const var_ptr MY_ATTRIBUTE((__unused__)), const void *const save) {
+   DBUG_ASSERT(save != nullptr);
+   DBUG_ASSERT(rdb != nullptr);
+-#if !defined(_WIN32) && !defined(__APPLE__)
++#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__CYGWIN__)
+   DBUG_ASSERT(io_watchdog != nullptr);
+ #endif
+ 
+@@ -721,7 +721,7 @@ static void rocksdb_set_io_write_timeout
+   const uint32_t new_val = *static_cast<const uint32_t *>(save);
+ 
+   rocksdb_io_write_timeout_secs = new_val;
+-#if !defined(_WIN32) && !defined(__APPLE__)
++#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__CYGWIN__)
+   io_watchdog->reset_timeout(rocksdb_io_write_timeout_secs);
+ #endif
+   RDB_MUTEX_UNLOCK_CHECK(rdb_sysvars_mutex);
+@@ -5276,7 +5276,7 @@ static int rocksdb_init_func(void *const
+     directories.push_back(myrocks::rocksdb_wal_dir);
+   }
+ 
+-#if !defined(_WIN32) && !defined(__APPLE__)
++#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__CYGWIN__)
+   io_watchdog = new Rdb_io_watchdog(directories);
+   io_watchdog->reset_timeout(rocksdb_io_write_timeout_secs);
+ #endif
+@@ -5422,7 +5422,7 @@ static int rocksdb_done_func(void *const
+   delete commit_latency_stats;
+   commit_latency_stats = nullptr;
+ 
+-#if !defined(_WIN32) && !defined(__APPLE__)
++#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__CYGWIN__)
+   delete io_watchdog;
+   io_watchdog = nullptr;
+ #endif
+--- origsrc/mariadb-10.3.14/storage/rocksdb/rdb_io_watchdog.cc	2019-04-01 10:04:03.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/rdb_io_watchdog.cc	2019-04-24 11:10:00.751953100 -0400
+@@ -22,7 +22,7 @@
+ #include <vector>
+ 
+ /* Rdb_io_watchdog doesn't work on Windows [yet] */
+-#ifdef HAVE_TIMER_DELETE
++#if defined HAVE_TIMER_DELETE && !defined __CYGWIN__
+ 
+ namespace myrocks {
+ 
+--- origsrc/mariadb-10.3.14/storage/rocksdb/rdb_io_watchdog.h	2019-04-01 10:04:03.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/rdb_io_watchdog.h	2019-04-24 11:10:05.830078100 -0400
+@@ -35,7 +35,7 @@
+ namespace myrocks {
+ 
+ // Rdb_io_watchdog does not support Windows ATM.
+-#ifdef HAVE_TIMER_DELETE
++#if defined HAVE_TIMER_DELETE && !defined __CYGWIN__
+ 
+ class Rdb_io_watchdog {
+   const int RDB_IO_WRITE_BUFFER_SIZE = 4096;
+--- origsrc/mariadb-10.3.14/storage/rocksdb/rocksdb/port/port_posix.cc	2019-04-01 10:03:57.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/rocksdb/port/port_posix.cc	2019-04-24 10:58:42.550781200 -0400
+@@ -7,6 +7,7 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file. See the AUTHORS file for names of contributors.
+ 
++#define _GNU_SOURCE /* sched_getcpu */
+ #include "port/port_posix.h"
+ 
+ #include <assert.h>
+--- origsrc/mariadb-10.3.14/storage/rocksdb/rocksdb/port/port_posix.h	2019-04-01 10:03:57.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/rocksdb/port/port_posix.h	2019-04-24 10:48:17.493164000 -0400
+@@ -17,7 +17,9 @@
+ // in fact, we could use that one
+ #define ROCKSDB_PRIszt "zu"
+ 
++#ifndef __declspec
+ #define __declspec(S)
++#endif
+ 
+ #define ROCKSDB_NOEXCEPT noexcept
+ 
+--- origsrc/mariadb-10.3.14/storage/rocksdb/ut0counter.h	2019-04-01 10:04:03.000000000 -0400
++++ src/mariadb-10.3.14/storage/rocksdb/ut0counter.h	2019-04-24 17:57:09.977539000 -0400
+@@ -61,7 +61,7 @@ struct get_sched_indexer_t : public gene
+ 
+ 		size_t	cpu = sched_getcpu();
+ 		if (cpu == (size_t) -1) {
+-			cpu = get_curr_thread_id();
++			cpu = (size_t)get_curr_thread_id();
+ 		}
+ 
+ 		return(cpu);
