@@ -22,7 +22,7 @@ PATCH_URI="
 
 PKG_NAMES="mysql mysql-server mysql-server-utils mysql-bench mysql-test
            mysql-common mysql-errmsg mysql-devel
-           libmariadbd19 libmariadbd-devel"
+           libmariadbd19 libmariadbd-devel libmysqlclient-devel"
 mysql_SUMMARY="MariaDB/MySQL database client apps"
 mysql_REQUIRES="mysql-common"
 mysql_CONTENTS="
@@ -169,6 +169,9 @@ mysql_devel_CONTENTS="
 	usr/share/man/man1/*_config.1*
 	usr/share/pkgconfig/mariadb.pc
 "
+libmysqlclient_devel_CATEGORY="_obsolete"
+libmysqlclient_devel_SUMMARY="Obsoleted by libmariadb-devel"
+libmysqlclient_devel_REQUIRES="libmariadb-devel"
 libmariadbd19_CATEGORY="Libs"
 libmariadbd19_SUMMARY="MariaDB/MySQL embedded database server library (runtime)"
 libmariadbd19_REQUIRES="mysql-common mysql-errmsg"
