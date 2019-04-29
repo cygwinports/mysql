@@ -56,6 +56,13 @@ mysql_CONTENTS="
 	usr/share/man/man1/mysql_plugin.*
 	usr/share/man/man1/mysql_waitpid.*
 "
+if defined ARCH_x86_64; then
+myrocks_bins="
+	usr/bin/myrocks_hotbackup
+	usr/bin/mysql_ldb.exe
+	usr/bin/sst_dump.exe
+"
+fi
 mysql_server_SUMMARY="MariaDB/MySQL database server"
 mysql_server_REQUIRES="mysql-common mysql-errmsg"
 mysql_server_OBSOLETES="mysqld"
@@ -67,16 +74,14 @@ mysql_server_CONTENTS="
 	usr/bin/myisamlog.exe
 	usr/bin/myisampack.exe
 	usr/bin/my_print_defaults.exe
-	usr/bin/myrocks_hotbackup
 	usr/bin/mysql_install_db
-	usr/bin/mysql_ldb.exe
 	usr/bin/mysql_secure_installation
 	usr/bin/mysql_tzinfo_to_sql.exe
 	usr/bin/mysqld_safe*
 	usr/bin/replace.exe
 	usr/bin/resolve*
-	usr/bin/sst_dump.exe
 	usr/bin/wsrep_sst_*
+	${myrocks_bins}
 	usr/lib/mariadb/plugin/
 	usr/sbin/mysqld.exe
 	usr/share/man/man1/aria_*
